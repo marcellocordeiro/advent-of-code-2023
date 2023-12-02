@@ -1,4 +1,6 @@
-fn part1(lines: &[&str]) -> i32 {
+use day1::INPUT;
+
+fn result(lines: &[&str]) -> i32 {
     lines.iter().fold(0, |acc, line| {
         let first = line
             .chars()
@@ -25,28 +27,26 @@ mod tests {
         let input = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
         let expected_result = 142;
 
-        let actual_result = part1(&input);
+        let actual_result = result(&input);
 
         assert_eq!(actual_result, expected_result);
     }
 
     #[test]
     fn test_input() {
-        let input = include_str!("../input.txt");
         let expected_result = 56049;
 
-        let lines: Vec<&str> = input.trim().split('\n').collect();
-        let actual_result = part1(&lines);
+        let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
+        let actual_result = result(&lines);
 
         assert_eq!(actual_result, expected_result);
     }
 }
 
 fn main() {
-    let input = include_str!("../input.txt");
-    let lines: Vec<&str> = input.trim().split('\n').collect();
+    let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
 
-    let result = part1(&lines);
+    let result = result(&lines);
 
     println!("Result: {result}");
 }

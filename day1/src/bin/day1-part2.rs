@@ -1,3 +1,5 @@
+use day1::INPUT;
+
 const STR_NUMBERS: [&str; 10] = [
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 ];
@@ -42,7 +44,7 @@ pub fn find_last(x: &str) -> Option<i32> {
     None
 }
 
-fn part2(lines: &[&str]) -> i32 {
+fn result(lines: &[&str]) -> i32 {
     lines.iter().fold(0, |acc, x| {
         let first = find_first(x).expect("should find a match for the first digit");
         let last = find_last(x).expect("should find a match for the last digit");
@@ -70,7 +72,7 @@ mod tests {
         ];
 
         for (line, expected_result) in input {
-            let actual_result = part2(&[line]);
+            let actual_result = result(&[line]);
 
             assert_eq!(actual_result, expected_result, "for: {line}");
         }
@@ -90,29 +92,27 @@ mod tests {
 
         let expected_result = 281;
 
-        let actual_result = part2(&input);
+        let actual_result = result(&input);
 
         assert_eq!(actual_result, expected_result);
     }
 
     #[test]
     fn test_input() {
-        let input = include_str!("../input.txt");
         let expected_result = 54530;
 
-        let lines: Vec<&str> = input.trim().split('\n').collect();
+        let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
 
-        let actual_result = part2(&lines);
+        let actual_result = result(&lines);
 
         assert_eq!(actual_result, expected_result);
     }
 }
 
 fn main() {
-    let input = include_str!("../input.txt");
-    let lines: Vec<&str> = input.trim().split('\n').collect();
+    let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
 
-    let result = part2(&lines);
+    let result = result(&lines);
 
     println!("Result: {result}");
 }

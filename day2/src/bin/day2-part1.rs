@@ -1,7 +1,6 @@
-use day2::{parse_games, Game};
+use day2::{parse_games, Game, INPUT};
 
 fn is_possible(game: &&Game) -> bool {
-    // 12 red cubes, 13 green cubes, and 14 blue cubes
     const MAX_RED: i32 = 12;
     const MAX_GREEN: i32 = 13;
     const MAX_BLUE: i32 = 14;
@@ -84,10 +83,9 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let input = include_str!("../input.txt");
         let expected_result = 1853;
 
-        let lines: Vec<&str> = input.trim().split('\n').collect();
+        let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
         let games = lines.into_iter().map(parse_game).collect::<Vec<Game>>();
 
         let actual_result = result(&games);
@@ -97,8 +95,7 @@ mod tests {
 }
 
 fn main() {
-    let input = include_str!("../input.txt");
-    let games = parse_games(input);
+    let games = parse_games(INPUT);
 
     let result = result(&games);
 

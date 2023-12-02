@@ -1,3 +1,5 @@
+pub const INPUT: &str = include_str!("input.txt");
+
 pub struct Play {
     pub red: i32,
     pub green: i32,
@@ -58,5 +60,3 @@ pub fn parse_game(line: &str) -> Game {
 
     Game { id, plays }
 }
-
-
