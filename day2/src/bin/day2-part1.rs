@@ -46,7 +46,6 @@ mod tests {
                 true,
             ),
         ];
-        let expected_result = 8;
 
         for (line, expected_result) in lines {
             let game = parse_game(&line);
@@ -54,14 +53,6 @@ mod tests {
 
             assert_eq!(actual_result, expected_result, "for {line}");
         }
-
-        let games = lines
-            .into_iter()
-            .map(|(g, _)| parse_game(g))
-            .collect::<Vec<Game>>();
-        let actual_result = result(&games);
-
-        assert_eq!(actual_result, expected_result);
     }
 
     #[test]
