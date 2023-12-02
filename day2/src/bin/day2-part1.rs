@@ -1,6 +1,6 @@
 use day2::{parse_games, Game, INPUT};
 
-fn is_possible(game: &&Game) -> bool {
+fn is_possible(game: &Game) -> bool {
     const MAX_RED: i32 = 12;
     const MAX_GREEN: i32 = 13;
     const MAX_BLUE: i32 = 14;
@@ -13,7 +13,7 @@ fn is_possible(game: &&Game) -> bool {
 fn result(games: &[Game]) -> i32 {
     games
         .iter()
-        .filter(is_possible)
+        .filter(|game| is_possible(game))
         .fold(0, |acc, game| acc + game.id)
 }
 

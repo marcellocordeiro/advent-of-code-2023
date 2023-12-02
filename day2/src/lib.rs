@@ -12,9 +12,11 @@ pub struct Game {
 }
 
 pub fn parse_games(input: &str) -> Vec<Game> {
-    let lines = input.trim().split('\n').collect::<Vec<&str>>();
-
-    lines.into_iter().map(parse_game).collect::<Vec<Game>>()
+    input
+        .trim()
+        .split('\n')
+        .map(parse_game)
+        .collect::<Vec<Game>>()
 }
 
 pub fn parse_game(line: &str) -> Game {
@@ -23,7 +25,7 @@ pub fn parse_game(line: &str) -> Game {
         assert_eq!(split.len(), 2);
 
         let id = split[0].replace("Game ", "").parse::<i32>().unwrap();
-        let raw_plays = split[1].split(';').map(str::trim).collect::<Vec<&str>>();
+        let raw_plays = split[1].split("; ").collect::<Vec<&str>>();
 
         (id, raw_plays)
     };

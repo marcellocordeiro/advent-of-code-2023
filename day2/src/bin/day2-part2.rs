@@ -5,7 +5,7 @@ fn each_result(game: &Game) -> i32 {
     let mut green = 0;
     let mut blue = 0;
 
-    for play in game.plays.iter() {
+    for play in &game.plays {
         red = red.max(play.red);
         green = green.max(play.green);
         blue = blue.max(play.blue);

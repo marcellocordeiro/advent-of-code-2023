@@ -1,3 +1,22 @@
 [workspace]
 members = ["day*"]
 resolver = "2"
+
+[workspace.lints.clippy]
+pedantic = "warn"
+nursery = "warn"
+match_same_arms = "allow"
+cast_lossless = "allow"
+unused_self = "allow"
+similar_names = "allow"
+enum_glob_use = "allow"
+must_use_candidate = "allow"
+missing_panics_doc = "allow"
+missing_errors_doc = "allow"
+collapsible_if = "allow"
+new_without_default = "allow"
+module_name_repetitions = "allow"
+missing_const_for_fn = "allow"
+cast_possible_truncation = "allow" # Intentional, but may be possible to mitigate.
+verbose_bit_mask = "allow" # As per the docs, LLVM may not be able to generate better code.
+cast_possible_wrap = "allow"
