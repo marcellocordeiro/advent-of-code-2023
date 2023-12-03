@@ -1,24 +1,12 @@
-use crate::{EngineNumber, EngineSymbol};
+use crate::{get_surrounding_coordinates, EngineNumber, EngineSymbol};
 
 fn has_surrounding_symbol(number: &EngineNumber, symbols: &[EngineSymbol]) -> bool {
-    for col_index in number.range.clone() {
-        let row_start = number.line_index.saturating_sub(1);
-        let row_end = number.line_index.saturating_add(1);
+    for column in number.column_range.clone() {
+        for (row, column) in get_surrounding_coordinates((number.row, column)) {
+            let found_symbol = symbols.iter().any(|s| s.row == row && s.column == column);
 
-        let col_start = col_index.saturating_sub(1);
-        let col_end = col_index.saturating_add(1);
-
-        let row_range = row_start..=row_end;
-        let col_range = col_start..=col_end;
-
-        for col in col_range {
-            for row in row_range.clone() {
-                if symbols
-                    .iter()
-                    .any(|symbol| symbol.line_index == row && symbol.position == col)
-                {
-                    return true;
-                }
+            if found_symbol {
+                return true;
             }
         }
     }

@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use regex::Regex;
 use std::ops::Range;
 
@@ -6,14 +7,14 @@ pub const SAMPLE: &str = include_str!("sample.txt");
 
 pub struct EngineNumber {
     pub number: i32,
-    pub range: Range<usize>,
-    pub line_index: usize,
+    pub column_range: Range<usize>,
+    pub row: usize,
 }
 
 pub struct EngineSymbol {
     pub symbol: char,
-    pub position: usize,
-    pub line_index: usize,
+    pub column: usize,
+    pub row: usize,
 }
 
 pub fn is_symbol(ch: char) -> bool {
@@ -26,17 +27,17 @@ pub fn parse_engine(lines: &[&str]) -> (Vec<EngineNumber>, Vec<EngineSymbol>) {
     lines
         .iter()
         .enumerate()
-        .fold((vec![], vec![]), |mut acc, (line_index, line)| {
+        .fold((vec![], vec![]), |mut acc, (row, line)| {
             let mut numbers = re
                 .find_iter(line)
                 .map(|m| {
-                    let number = m.as_str().parse::<i32>().unwrap();
-                    let range = m.range();
+                    let number = m.as_str().parse().unwrap();
+                    let column_range = m.range();
 
                     EngineNumber {
                         number,
-                        range,
-                        line_index,
+                        column_range,
+                        row,
                     }
                 })
                 .collect();
@@ -44,16 +45,12 @@ pub fn parse_engine(lines: &[&str]) -> (Vec<EngineNumber>, Vec<EngineSymbol>) {
             let mut symbols = line
                 .chars()
                 .enumerate()
-                .filter_map(|(position, symbol)| {
-                    if is_symbol(symbol) {
-                        return Some(EngineSymbol {
-                            symbol,
-                            position,
-                            line_index,
-                        });
-                    }
-
-                    None
+                .filter_map(|(column, symbol)| {
+                    is_symbol(symbol).then_some(EngineSymbol {
+                        symbol,
+                        column,
+                        row,
+                    })
                 })
                 .collect();
 
@@ -62,6 +59,22 @@ pub fn parse_engine(lines: &[&str]) -> (Vec<EngineNumber>, Vec<EngineSymbol>) {
 
             acc
         })
+}
+
+pub fn get_surrounding_coordinates(
+    (row, col): (usize, usize),
+    //(max_row, max_col): (usize, usize),
+) -> Vec<(usize, usize)> {
+    let row_start = row.saturating_sub(1);
+    let row_end = row.saturating_add(1); //.min(max_row);
+
+    let col_start = col.saturating_sub(1);
+    let col_end = col.saturating_add(1); //.min(max_col);
+
+    let row_range = row_start..=row_end;
+    let col_range = col_start..=col_end;
+
+    row_range.cartesian_product(col_range).unique().collect()
 }
 
 pub mod part1;

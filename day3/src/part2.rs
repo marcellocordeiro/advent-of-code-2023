@@ -1,26 +1,19 @@
-use crate::{EngineNumber, EngineSymbol};
+use crate::{get_surrounding_coordinates, EngineNumber, EngineSymbol};
 
 fn is_gear(symbol: &EngineSymbol) -> bool {
     symbol.symbol == '*'
 }
 
-fn get_surrounding_numbers<'a>(
-    symbol: &'a EngineSymbol,
-    numbers: &'a [EngineNumber],
-) -> Vec<&'a EngineNumber> {
-    let row_start = symbol.line_index.saturating_sub(1);
-    let row_end = symbol.line_index.saturating_add(1);
-
-    let col_start = symbol.position.saturating_sub(1);
-    let col_end = symbol.position.saturating_add(1);
-
-    let row_range = row_start..=row_end;
-    let col_range = col_start..=col_end;
+fn get_surrounding_numbers(symbol: &EngineSymbol, numbers: &[EngineNumber]) -> Vec<i32> {
+    let surrounding_coordinates = get_surrounding_coordinates((symbol.row, symbol.column));
 
     numbers
         .iter()
-        .filter(move |n| {
-            row_range.contains(&n.line_index) && col_range.clone().any(|i| n.range.contains(&i))
+        .filter_map(|n| {
+            surrounding_coordinates
+                .iter()
+                .any(|(row, column)| *row == n.row && n.column_range.contains(column))
+                .then_some(n.number)
         })
         .collect()
 }
@@ -29,16 +22,13 @@ pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
     symbols
         .iter()
         .filter(|s| is_gear(s))
-        .fold(0, |acc, symbol| {
-            let surrounding_numbers = get_surrounding_numbers(symbol, numbers);
+        .filter_map(|s| {
+            let surrounding_numbers = get_surrounding_numbers(s, numbers);
 
-            if surrounding_numbers.len() == 2 {
-                let product = surrounding_numbers[0].number * surrounding_numbers[1].number;
-                return acc + product;
-            }
-
-            acc
+            (surrounding_numbers.len() == 2)
+                .then_some(surrounding_numbers.into_iter().product::<i32>())
         })
+        .sum()
 }
 
 #[cfg(test)]
