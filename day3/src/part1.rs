@@ -1,4 +1,4 @@
-use day3::{convert_input, parse_engine, EngineNumber, EngineSymbol, INPUT};
+use crate::{EngineNumber, EngineSymbol};
 
 fn has_surrounding_symbol(number: &EngineNumber, symbols: &[EngineSymbol]) -> bool {
     for col_index in number.range.clone() {
@@ -26,7 +26,7 @@ fn has_surrounding_symbol(number: &EngineNumber, symbols: &[EngineSymbol]) -> bo
     false
 }
 
-fn part1(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
+pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
     numbers.iter().fold(0, |acc, number| {
         acc + if has_surrounding_symbol(number, symbols) {
             number.number
@@ -36,19 +36,10 @@ fn part1(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
     })
 }
 
-fn main() {
-    let lines = convert_input(INPUT);
-    let (numbers, symbols) = parse_engine(&lines);
-
-    let result = part1(&numbers, &symbols);
-
-    println!("Result: {result}");
-}
-
 #[cfg(test)]
 mod tests {
 
-    use day3::SAMPLE;
+    use crate::{convert_input, parse_engine, INPUT, SAMPLE};
 
     use super::*;
 
@@ -57,7 +48,7 @@ mod tests {
         let lines = convert_input(SAMPLE);
         let (numbers, symbols) = parse_engine(&lines);
 
-        let result = part1(&numbers, &symbols);
+        let result = result(&numbers, &symbols);
 
         assert_eq!(result, 4361);
     }
@@ -67,7 +58,7 @@ mod tests {
         let lines = convert_input(INPUT);
         let (numbers, symbols) = parse_engine(&lines);
 
-        let result = part1(&numbers, &symbols);
+        let result = result(&numbers, &symbols);
 
         assert_eq!(result, 530495);
     }

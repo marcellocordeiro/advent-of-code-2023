@@ -2,17 +2,15 @@ use std::ops::Range;
 
 use regex::Regex;
 
-pub const SAMPLE: &str = include_str!("sample.txt");
 pub const INPUT: &str = include_str!("input.txt");
+pub const SAMPLE: &str = include_str!("sample.txt");
 
-#[derive(Debug)]
 pub struct EngineNumber {
     pub number: i32,
     pub range: Range<usize>,
     pub line_index: usize,
 }
 
-#[derive(Debug)]
 pub struct EngineSymbol {
     pub symbol: char,
     pub position: usize,
@@ -70,3 +68,6 @@ pub fn parse_engine(lines: &[&str]) -> (Vec<EngineNumber>, Vec<EngineSymbol>) {
             acc
         })
 }
+
+pub mod part1;
+pub mod part2;

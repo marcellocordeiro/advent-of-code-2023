@@ -1,4 +1,7 @@
+use common::split_by_line;
+
 pub const INPUT: &str = include_str!("input.txt");
+pub const SAMPLE: &str = include_str!("sample.txt");
 
 pub struct Play {
     pub red: i32,
@@ -12,7 +15,7 @@ pub struct Game {
 }
 
 pub fn parse_games(input: &str) -> Vec<Game> {
-    input.trim().split('\n').map(parse_game).collect()
+    split_by_line(input).into_iter().map(parse_game).collect()
 }
 
 pub fn parse_game(line: &str) -> Game {
@@ -56,3 +59,6 @@ pub fn parse_game(line: &str) -> Game {
 
     Game { id, plays }
 }
+
+pub mod part1;
+pub mod part2;

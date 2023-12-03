@@ -1,5 +1,3 @@
-use day1::INPUT;
-
 const DIGITS_STR: [&str; 10] = [
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 ];
@@ -51,34 +49,30 @@ fn each_result(line: &str) -> i32 {
     (first * 10) + last
 }
 
-fn result(lines: &[&str]) -> i32 {
+pub fn result(lines: &[&str]) -> i32 {
     lines.iter().fold(0, |acc, line| acc + each_result(line))
-}
-
-fn main() {
-    let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
-    let result = result(&lines);
-
-    println!("Result: {result}");
 }
 
 #[cfg(test)]
 mod tests {
+    use std::iter::zip;
+
+    use common::split_by_line;
+
+    use crate::{INPUT, SAMPLE_PART2};
+
     use super::*;
 
     #[test]
     fn test_each() {
-        let lines_with_result = [
-            ("two1nine", 29),
-            ("eightwothree", 83),
-            ("abcone2threexyz", 13),
-            ("xtwone3four", 24),
-            ("4nineeightseven2", 42),
-            ("zoneight234", 14),
-            ("7pqrstsixteen", 76),
-        ];
+        let lines = split_by_line(SAMPLE_PART2);
+        let results = [29, 83, 13, 24, 42, 14, 76];
 
-        for (line, expected_result) in lines_with_result {
+        assert_eq!(lines.len(), results.len());
+
+        let zipped = zip(lines, results);
+
+        for (line, expected_result) in zipped {
             let actual_result = each_result(line);
 
             assert_eq!(actual_result, expected_result, "for: {line}");
@@ -87,15 +81,7 @@ mod tests {
 
     #[test]
     fn test_all() {
-        let lines = [
-            "two1nine",
-            "eightwothree",
-            "abcone2threexyz",
-            "xtwone3four",
-            "4nineeightseven2",
-            "zoneight234",
-            "7pqrstsixteen",
-        ];
+        let lines = split_by_line(SAMPLE_PART2);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 281);
@@ -103,7 +89,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
+        let lines = split_by_line(INPUT);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 54530);

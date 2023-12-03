@@ -9,4 +9,5 @@ edition = "2021"
 workspace = true
 
 [dependencies]
+common = { workspace = true }
 regex = "1.10.2"

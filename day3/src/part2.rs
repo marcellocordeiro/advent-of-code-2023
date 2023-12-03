@@ -1,4 +1,4 @@
-use day3::{convert_input, parse_engine, EngineNumber, EngineSymbol, INPUT};
+use crate::{EngineNumber, EngineSymbol};
 
 fn is_gear(symbol: &EngineSymbol) -> bool {
     symbol.symbol == '*'
@@ -25,7 +25,7 @@ fn get_surrounding_numbers<'a>(
         .collect()
 }
 
-fn part2(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
+pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
     symbols
         .iter()
         .filter(|s| is_gear(s))
@@ -33,7 +33,6 @@ fn part2(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
             let surrounding_numbers = get_surrounding_numbers(symbol, numbers);
 
             if surrounding_numbers.len() == 2 {
-                // dbg!(surrounding_numbers.clone());
                 let product = surrounding_numbers[0].number * surrounding_numbers[1].number;
                 return acc + product;
             }
@@ -42,19 +41,10 @@ fn part2(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
         })
 }
 
-fn main() {
-    let lines = convert_input(INPUT);
-    let (numbers, symbols) = parse_engine(&lines);
-
-    let result = part2(&numbers, &symbols);
-
-    println!("Result: {result}");
-}
-
 #[cfg(test)]
 mod tests {
 
-    use day3::SAMPLE;
+    use crate::{convert_input, parse_engine, INPUT, SAMPLE};
 
     use super::*;
 
@@ -63,7 +53,7 @@ mod tests {
         let lines = convert_input(SAMPLE);
         let (numbers, symbols) = parse_engine(&lines);
 
-        let result = part2(&numbers, &symbols);
+        let result = result(&numbers, &symbols);
 
         assert_eq!(result, 467835);
     }
@@ -73,8 +63,8 @@ mod tests {
         let lines = convert_input(INPUT);
         let (numbers, symbols) = parse_engine(&lines);
 
-        let result = part2(&numbers, &symbols);
+        let result = result(&numbers, &symbols);
 
-        assert_eq!(result, 530495);
+        assert_eq!(result, 80253814);
     }
 }

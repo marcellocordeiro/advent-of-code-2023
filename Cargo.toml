@@ -1,5 +1,5 @@
 [workspace]
-members = ["day*"]
+members = ["common", "day*"]
 resolver = "2"
 
 [workspace.lints.clippy]
@@ -18,5 +18,8 @@ new_without_default = "allow"
 module_name_repetitions = "allow"
 missing_const_for_fn = "allow"
 cast_possible_truncation = "allow" # Intentional, but may be possible to mitigate.
-verbose_bit_mask = "allow" # As per the docs, LLVM may not be able to generate better code.
+verbose_bit_mask = "allow"         # As per the docs, LLVM may not be able to generate better code.
 cast_possible_wrap = "allow"
+
+[workspace.dependencies.common]
+path = "./common"

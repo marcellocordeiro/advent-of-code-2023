@@ -1,5 +1,3 @@
-use day1::INPUT;
-
 fn each_result(line: &str) -> i32 {
     let first = line
         .chars()
@@ -14,31 +12,30 @@ fn each_result(line: &str) -> i32 {
     format!("{first}{last}").parse::<i32>().unwrap()
 }
 
-fn result(lines: &[&str]) -> i32 {
+pub fn result(lines: &[&str]) -> i32 {
     lines.iter().fold(0, |acc, line| acc + each_result(line))
-}
-
-fn main() {
-    let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
-    let result = result(&lines);
-
-    println!("Result: {result}");
 }
 
 #[cfg(test)]
 mod tests {
+    use std::iter::zip;
+
+    use common::split_by_line;
+
+    use crate::{INPUT, SAMPLE_PART1};
+
     use super::*;
 
     #[test]
     fn test_each() {
-        let lines_with_result = [
-            ("1abc2", 12),
-            ("pqr3stu8vwx", 38),
-            ("a1b2c3d4e5f", 15),
-            ("treb7uchet", 77),
-        ];
+        let lines = split_by_line(SAMPLE_PART1);
+        let results = [12, 38, 15, 77];
 
-        for (line, expected_result) in lines_with_result {
+        assert_eq!(lines.len(), results.len());
+
+        let zipped = zip(lines, results);
+
+        for (line, expected_result) in zipped {
             let actual_result = each_result(&line);
 
             assert_eq!(actual_result, expected_result);
@@ -47,7 +44,7 @@ mod tests {
 
     #[test]
     fn test_all() {
-        let lines = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
+        let lines = split_by_line(SAMPLE_PART1);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 142);
@@ -55,7 +52,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
+        let lines = split_by_line(INPUT);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 56049);
