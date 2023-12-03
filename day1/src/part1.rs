@@ -1,19 +1,19 @@
+pub fn result(lines: &[&str]) -> i32 {
+    lines.iter().map(|line| each_result(line)).sum()
+}
+
 fn each_result(line: &str) -> i32 {
     let first = line
         .chars()
-        .find(|c| c.is_numeric())
+        .find(|ch| ch.is_numeric())
         .expect("should find a match for the first digit");
 
     let last = line
         .chars()
-        .rfind(|c| c.is_numeric())
+        .rfind(|ch| ch.is_numeric())
         .expect("should find a match for the last digit");
 
-    format!("{first}{last}").parse::<i32>().unwrap()
-}
-
-pub fn result(lines: &[&str]) -> i32 {
-    lines.iter().fold(0, |acc, line| acc + each_result(line))
+    format!("{first}{last}").parse().unwrap()
 }
 
 #[cfg(test)]
@@ -27,7 +27,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_each() {
+    fn test_each_sample_line() {
         let lines = split_by_line(SAMPLE_PART1);
         let results = [12, 38, 15, 77];
 
@@ -38,12 +38,12 @@ mod tests {
         for (line, expected_result) in zipped {
             let actual_result = each_result(&line);
 
-            assert_eq!(actual_result, expected_result);
+            assert_eq!(actual_result, expected_result, "for {line}");
         }
     }
 
     #[test]
-    fn test_all() {
+    fn test_sample() {
         let lines = split_by_line(SAMPLE_PART1);
         let actual_result = result(&lines);
 

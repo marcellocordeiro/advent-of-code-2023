@@ -1,8 +1,19 @@
+pub fn result(lines: &[&str]) -> i32 {
+    lines.iter().map(|line| each_result(line)).sum()
+}
+
+fn each_result(line: &str) -> i32 {
+    let first = find_first(line).expect("should find a match for the first digit");
+    let last = find_last(line).expect("should find a match for the last digit");
+
+    (first * 10) + last
+}
+
 const DIGITS_STR: [&str; 10] = [
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 ];
 
-pub fn find_first(x: &str) -> Option<i32> {
+fn find_first(x: &str) -> Option<i32> {
     for i in 0..x.len() {
         let window = &x[i..];
 
@@ -22,7 +33,7 @@ pub fn find_first(x: &str) -> Option<i32> {
     None
 }
 
-pub fn find_last(x: &str) -> Option<i32> {
+fn find_last(x: &str) -> Option<i32> {
     for i in (0..x.len()).rev() {
         let window = &x[0..=i];
 
@@ -40,17 +51,6 @@ pub fn find_last(x: &str) -> Option<i32> {
     }
 
     None
-}
-
-fn each_result(line: &str) -> i32 {
-    let first = find_first(line).expect("should find a match for the first digit");
-    let last = find_last(line).expect("should find a match for the last digit");
-
-    (first * 10) + last
-}
-
-pub fn result(lines: &[&str]) -> i32 {
-    lines.iter().fold(0, |acc, line| acc + each_result(line))
 }
 
 #[cfg(test)]

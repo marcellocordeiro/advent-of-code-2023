@@ -23,3 +23,6 @@ cast_possible_wrap = "allow"
 
 [workspace.dependencies.common]
 path = "./common"
+
+[workspace.dependencies]
+regex = "1.10.2"

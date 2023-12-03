@@ -1,21 +1,21 @@
 use crate::Game;
 
-fn each_result(game: &Game) -> i32 {
-    let mut red = 0;
-    let mut green = 0;
-    let mut blue = 0;
-
-    for play in &game.plays {
-        red = red.max(play.red);
-        green = green.max(play.green);
-        blue = blue.max(play.blue);
-    }
-
-    red * green * blue
-}
-
 pub fn result(games: &[Game]) -> i32 {
     games.iter().map(each_result).sum()
+}
+
+fn each_result(game: &Game) -> i32 {
+    game.plays
+        .iter()
+        .fold([0, 0, 0], |acc, play| {
+            [
+                acc[0].max(play.red),
+                acc[1].max(play.green),
+                acc[2].max(play.blue),
+            ]
+        })
+        .iter()
+        .product()
 }
 
 #[cfg(test)]
@@ -29,7 +29,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_each() {
+    fn test_each_sample_line() {
         let lines = split_by_line(SAMPLE);
         let results = [48, 12, 1560, 630, 36];
 
@@ -46,7 +46,7 @@ mod tests {
     }
 
     #[test]
-    fn test_all() {
+    fn test_sample() {
         let lines = split_by_line(SAMPLE);
 
         let games = lines.into_iter().map(parse_game).collect::<Vec<Game>>();

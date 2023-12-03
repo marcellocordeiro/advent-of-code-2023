@@ -1,5 +1,12 @@
 use crate::Game;
 
+pub fn result(games: &[Game]) -> i32 {
+    games
+        .iter()
+        .filter_map(|g| is_possible(g).then_some(g.id))
+        .sum()
+}
+
 fn is_possible(game: &Game) -> bool {
     const MAX_RED: i32 = 12;
     const MAX_GREEN: i32 = 13;
@@ -8,13 +15,6 @@ fn is_possible(game: &Game) -> bool {
     game.plays
         .iter()
         .all(|play| play.red <= MAX_RED && play.green <= MAX_GREEN && play.blue <= MAX_BLUE)
-}
-
-pub fn result(games: &[Game]) -> i32 {
-    games
-        .iter()
-        .filter(|game| is_possible(game))
-        .fold(0, |acc, game| acc + game.id)
 }
 
 #[cfg(test)]
@@ -28,7 +28,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_each() {
+    fn test_each_sample_line() {
         let lines = split_by_line(SAMPLE);
         let results = [true, true, false, false, true];
 
@@ -45,7 +45,7 @@ mod tests {
     }
 
     #[test]
-    fn test_all() {
+    fn test_sample() {
         let lines = split_by_line(SAMPLE);
 
         let games = lines.into_iter().map(parse_game).collect::<Vec<Game>>();
