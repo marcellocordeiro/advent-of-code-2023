@@ -18,13 +18,10 @@ fn each_result(line: &str) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use std::iter::zip;
-
-    use common::split_by_line;
-
-    use crate::{INPUT, SAMPLE_PART1};
-
     use super::*;
+    use crate::{INPUT, SAMPLE_PART1};
+    use common::split_by_line;
+    use std::iter::zip;
 
     #[test]
     fn test_each_sample_line() {

@@ -1,6 +1,5 @@
-use std::ops::Range;
-
 use regex::Regex;
+use std::ops::Range;
 
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE: &str = include_str!("sample.txt");
@@ -15,10 +14,6 @@ pub struct EngineSymbol {
     pub symbol: char,
     pub position: usize,
     pub line_index: usize,
-}
-
-pub fn convert_input(input: &str) -> Vec<&str> {
-    input.trim().split('\n').collect()
 }
 
 pub fn is_symbol(ch: char) -> bool {

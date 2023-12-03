@@ -55,13 +55,10 @@ fn find_last(x: &str) -> Option<i32> {
 
 #[cfg(test)]
 mod tests {
-    use std::iter::zip;
-
-    use common::split_by_line;
-
-    use crate::{INPUT, SAMPLE_PART2};
-
     use super::*;
+    use crate::{INPUT, SAMPLE_PART2};
+    use common::split_by_line;
+    use std::iter::zip;
 
     #[test]
     fn test_each() {

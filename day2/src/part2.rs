@@ -20,13 +20,10 @@ fn each_result(game: &Game) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use std::iter::zip;
-
-    use common::split_by_line;
-
-    use crate::{parse_game, parse_games, INPUT, SAMPLE};
-
     use super::*;
+    use crate::{parse_game, parse_games, INPUT, SAMPLE};
+    use common::split_by_line;
+    use std::iter::zip;
 
     #[test]
     fn test_each_sample_line() {

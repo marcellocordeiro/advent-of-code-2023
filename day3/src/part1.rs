@@ -27,25 +27,21 @@ fn has_surrounding_symbol(number: &EngineNumber, symbols: &[EngineSymbol]) -> bo
 }
 
 pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
-    numbers.iter().fold(0, |acc, number| {
-        acc + if has_surrounding_symbol(number, symbols) {
-            number.number
-        } else {
-            0
-        }
-    })
+    numbers
+        .iter()
+        .filter_map(|n| has_surrounding_symbol(n, symbols).then_some(n.number))
+        .sum()
 }
 
 #[cfg(test)]
 mod tests {
-
-    use crate::{convert_input, parse_engine, INPUT, SAMPLE};
-
     use super::*;
+    use crate::{parse_engine, INPUT, SAMPLE};
+    use common::split_by_line;
 
     #[test]
     fn test_all() {
-        let lines = convert_input(SAMPLE);
+        let lines = split_by_line(SAMPLE);
         let (numbers, symbols) = parse_engine(&lines);
 
         let result = result(&numbers, &symbols);
@@ -55,7 +51,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let lines = convert_input(INPUT);
+        let lines = split_by_line(INPUT);
         let (numbers, symbols) = parse_engine(&lines);
 
         let result = result(&numbers, &symbols);
