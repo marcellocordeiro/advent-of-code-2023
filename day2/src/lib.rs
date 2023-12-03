@@ -12,11 +12,7 @@ pub struct Game {
 }
 
 pub fn parse_games(input: &str) -> Vec<Game> {
-    input
-        .trim()
-        .split('\n')
-        .map(parse_game)
-        .collect::<Vec<Game>>()
+    input.trim().split('\n').map(parse_game).collect()
 }
 
 pub fn parse_game(line: &str) -> Game {
@@ -40,7 +36,7 @@ pub fn parse_game(line: &str) -> Game {
                     blue: 0,
                 },
                 |mut acc, raw_cubes_with_count| {
-                    let [count_str, colour] = raw_cubes_with_count
+                    let [count_str, color] = raw_cubes_with_count
                         .split(' ')
                         .collect::<Vec<&str>>()
                         .try_into()
@@ -48,19 +44,19 @@ pub fn parse_game(line: &str) -> Game {
 
                     let count = count_str.parse::<i32>().unwrap();
 
-                    match colour {
+                    match color {
                         "red" => acc.red += count,
                         "green" => acc.green += count,
                         "blue" => acc.blue += count,
 
-                        _ => panic!("Invalid colour: {colour}"),
+                        _ => panic!("Invalid color: {color}"),
                     }
 
                     acc
                 },
             )
         })
-        .collect::<Vec<Play>>();
+        .collect();
 
     Game { id, plays }
 }

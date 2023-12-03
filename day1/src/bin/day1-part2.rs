@@ -1,6 +1,6 @@
 use day1::INPUT;
 
-const STR_NUMBERS: [&str; 10] = [
+const DIGITS_STR: [&str; 10] = [
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 ];
 
@@ -14,8 +14,8 @@ pub fn find_first(x: &str) -> Option<i32> {
             return Some(number as i32);
         }
 
-        for (i, str_number) in STR_NUMBERS.iter().enumerate() {
-            if window.starts_with(str_number) {
+        for (i, digit_str) in DIGITS_STR.iter().enumerate() {
+            if window.starts_with(digit_str) {
                 return Some(i as i32);
             }
         }
@@ -34,8 +34,8 @@ pub fn find_last(x: &str) -> Option<i32> {
             return Some(number as i32);
         }
 
-        for (i, str_number) in STR_NUMBERS.iter().enumerate() {
-            if window.ends_with(str_number) {
+        for (i, digit_str) in DIGITS_STR.iter().enumerate() {
+            if window.ends_with(digit_str) {
                 return Some(i as i32);
             }
         }
@@ -44,15 +44,15 @@ pub fn find_last(x: &str) -> Option<i32> {
     None
 }
 
+fn each_result(line: &str) -> i32 {
+    let first = find_first(line).expect("should find a match for the first digit");
+    let last = find_last(line).expect("should find a match for the last digit");
+
+    (first * 10) + last
+}
+
 fn result(lines: &[&str]) -> i32 {
-    lines.iter().fold(0, |acc, x| {
-        let first = find_first(x).expect("should find a match for the first digit");
-        let last = find_last(x).expect("should find a match for the last digit");
-
-        let number = (first * 10) + last;
-
-        acc + number
-    })
+    lines.iter().fold(0, |acc, line| acc + each_result(line))
 }
 
 #[cfg(test)]
@@ -61,7 +61,7 @@ mod tests {
 
     #[test]
     fn test_each() {
-        let input = [
+        let lines_with_result = [
             ("two1nine", 29),
             ("eightwothree", 83),
             ("abcone2threexyz", 13),
@@ -71,8 +71,8 @@ mod tests {
             ("7pqrstsixteen", 76),
         ];
 
-        for (line, expected_result) in input {
-            let actual_result = result(&[line]);
+        for (line, expected_result) in lines_with_result {
+            let actual_result = each_result(line);
 
             assert_eq!(actual_result, expected_result, "for: {line}");
         }
@@ -80,7 +80,7 @@ mod tests {
 
     #[test]
     fn test_all() {
-        let input = [
+        let lines = [
             "two1nine",
             "eightwothree",
             "abcone2threexyz",
@@ -89,19 +89,17 @@ mod tests {
             "zoneight234",
             "7pqrstsixteen",
         ];
-
         let expected_result = 281;
 
-        let actual_result = result(&input);
+        let actual_result = result(&lines);
 
         assert_eq!(actual_result, expected_result);
     }
 
     #[test]
     fn test_input() {
-        let expected_result = 54530;
-
         let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
+        let expected_result = 54530;
 
         let actual_result = result(&lines);
 
@@ -111,7 +109,6 @@ mod tests {
 
 fn main() {
     let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
-
     let result = result(&lines);
 
     println!("Result: {result}");

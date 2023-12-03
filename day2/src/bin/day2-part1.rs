@@ -19,8 +19,9 @@ fn result(games: &[Game]) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use day2::parse_game;
+
+    use super::*;
 
     #[test]
     fn test_each() {
@@ -49,7 +50,7 @@ mod tests {
 
         for (line, expected_result) in lines {
             let game = parse_game(&line);
-            let actual_result = is_possible(&&game);
+            let actual_result = is_possible(&game);
 
             assert_eq!(actual_result, expected_result, "for {line}");
         }
@@ -74,10 +75,8 @@ mod tests {
 
     #[test]
     fn test_input() {
+        let games = parse_games(INPUT);
         let expected_result = 1853;
-
-        let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
-        let games = lines.into_iter().map(parse_game).collect::<Vec<Game>>();
 
         let actual_result = result(&games);
 
@@ -87,7 +86,6 @@ mod tests {
 
 fn main() {
     let games = parse_games(INPUT);
-
     let result = result(&games);
 
     println!("Result: {result}");
