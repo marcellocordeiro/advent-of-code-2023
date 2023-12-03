@@ -17,11 +17,10 @@ pub fn parse_games(input: &str) -> Vec<Game> {
 
 pub fn parse_game(line: &str) -> Game {
     let (id, raw_plays) = {
-        let split = line.split(": ").collect::<Vec<&str>>();
-        assert_eq!(split.len(), 2);
+        let (id_part, plays_part) = line.split_once(": ").unwrap();
 
-        let id = split[0].replace("Game ", "").parse::<i32>().unwrap();
-        let raw_plays = split[1].split("; ").collect::<Vec<&str>>();
+        let id = id_part.replace("Game ", "").parse::<i32>().unwrap();
+        let raw_plays = plays_part.split("; ").collect::<Vec<&str>>();
 
         (id, raw_plays)
     };
@@ -36,13 +35,10 @@ pub fn parse_game(line: &str) -> Game {
                     blue: 0,
                 },
                 |mut acc, raw_cubes_with_count| {
-                    let [count_str, color] = raw_cubes_with_count
-                        .split(' ')
-                        .collect::<Vec<&str>>()
-                        .try_into()
+                    let (count, color) = raw_cubes_with_count
+                        .split_once(' ')
+                        .map(|(a, b)| (a.parse::<i32>().unwrap(), b))
                         .unwrap();
-
-                    let count = count_str.parse::<i32>().unwrap();
 
                     match color {
                         "red" => acc.red += count,

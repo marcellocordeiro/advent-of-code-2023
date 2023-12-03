@@ -18,6 +18,13 @@ fn result(lines: &[&str]) -> i32 {
     lines.iter().fold(0, |acc, line| acc + each_result(line))
 }
 
+fn main() {
+    let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
+    let result = result(&lines);
+
+    println!("Result: {result}");
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -41,27 +48,16 @@ mod tests {
     #[test]
     fn test_all() {
         let lines = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
-        let expected_result = 142;
-
         let actual_result = result(&lines);
 
-        assert_eq!(actual_result, expected_result);
+        assert_eq!(actual_result, 142);
     }
 
     #[test]
     fn test_input() {
         let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
-        let expected_result = 56049;
-
         let actual_result = result(&lines);
 
-        assert_eq!(actual_result, expected_result);
+        assert_eq!(actual_result, 56049);
     }
-}
-
-fn main() {
-    let lines = INPUT.trim().split('\n').collect::<Vec<&str>>();
-    let result = result(&lines);
-
-    println!("Result: {result}");
 }

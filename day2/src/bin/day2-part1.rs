@@ -17,6 +17,13 @@ fn result(games: &[Game]) -> i32 {
         .fold(0, |acc, game| acc + game.id)
 }
 
+fn main() {
+    let games = parse_games(INPUT);
+    let result = result(&games);
+
+    println!("Result: {result}");
+}
+
 #[cfg(test)]
 mod tests {
     use day2::parse_game;
@@ -65,12 +72,11 @@ mod tests {
             "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
             "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
         ];
-        let expected_result = 8;
 
         let games = lines.into_iter().map(parse_game).collect::<Vec<Game>>();
         let actual_result = result(&games);
 
-        assert_eq!(actual_result, expected_result);
+        assert_eq!(actual_result, 8);
     }
 
     #[test]
@@ -82,11 +88,4 @@ mod tests {
 
         assert_eq!(actual_result, expected_result);
     }
-}
-
-fn main() {
-    let games = parse_games(INPUT);
-    let result = result(&games);
-
-    println!("Result: {result}");
 }
