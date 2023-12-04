@@ -1,5 +1,12 @@
 use crate::{get_surrounding_coordinates, EngineNumber, EngineSymbol};
 
+pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
+    numbers
+        .iter()
+        .filter_map(|n| has_surrounding_symbol(n, symbols).then_some(n.number))
+        .sum()
+}
+
 fn has_surrounding_symbol(number: &EngineNumber, symbols: &[EngineSymbol]) -> bool {
     for column in number.column_range.clone() {
         for (row, column) in get_surrounding_coordinates((number.row, column)) {
@@ -12,13 +19,6 @@ fn has_surrounding_symbol(number: &EngineNumber, symbols: &[EngineSymbol]) -> bo
     }
 
     false
-}
-
-pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
-    numbers
-        .iter()
-        .filter_map(|n| has_surrounding_symbol(n, symbols).then_some(n.number))
-        .sum()
 }
 
 #[cfg(test)]
@@ -44,6 +44,6 @@ mod tests {
 
         let result = result(&numbers, &symbols);
 
-        assert_eq!(result, 530495);
+        assert_eq!(result, 530_495);
     }
 }

@@ -1,5 +1,18 @@
 use crate::{get_surrounding_coordinates, EngineNumber, EngineSymbol};
 
+pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
+    symbols
+        .iter()
+        .filter(|s| is_gear(s))
+        .filter_map(|s| {
+            let surrounding_numbers = get_surrounding_numbers(s, numbers);
+
+            (surrounding_numbers.len() == 2)
+                .then_some(surrounding_numbers.into_iter().product::<i32>())
+        })
+        .sum()
+}
+
 fn is_gear(symbol: &EngineSymbol) -> bool {
     symbol.symbol == '*'
 }
@@ -18,19 +31,6 @@ fn get_surrounding_numbers(symbol: &EngineSymbol, numbers: &[EngineNumber]) -> V
         .collect()
 }
 
-pub fn result(numbers: &[EngineNumber], symbols: &[EngineSymbol]) -> i32 {
-    symbols
-        .iter()
-        .filter(|s| is_gear(s))
-        .filter_map(|s| {
-            let surrounding_numbers = get_surrounding_numbers(s, numbers);
-
-            (surrounding_numbers.len() == 2)
-                .then_some(surrounding_numbers.into_iter().product::<i32>())
-        })
-        .sum()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -44,7 +44,7 @@ mod tests {
 
         let result = result(&numbers, &symbols);
 
-        assert_eq!(result, 467835);
+        assert_eq!(result, 467_835);
     }
 
     #[test]
@@ -54,6 +54,6 @@ mod tests {
 
         let result = result(&numbers, &symbols);
 
-        assert_eq!(result, 80253814);
+        assert_eq!(result, 80_253_814);
     }
 }

@@ -1,26 +1,27 @@
+use crate::{number_matches_count, Card};
 use std::collections::BTreeMap;
 
-use crate::{number_intersection_count, Card};
+pub fn result(cards: &[Card]) -> i32 {
+    card_count(cards).values().sum()
+}
 
-pub fn card_count(cards: &[Card]) -> BTreeMap<i32, i32> {
+fn card_count(cards: &[Card]) -> BTreeMap<i32, i32> {
     let mut map = BTreeMap::new();
 
     for card in cards {
         *map.entry(card.id).or_default() += 1;
 
         let current_card_copies = *map.entry(card.id).or_default();
-        let count = number_intersection_count(card) as i32;
+        let matches_count = number_matches_count(card) as i32;
 
-        for card_copy_id in (card.id + 1)..((card.id + 1) + count) {
-            *map.entry(card_copy_id).or_default() += current_card_copies;
+        let new_copy_ids = (card.id + 1)..((card.id + 1) + matches_count);
+
+        for copy_id in new_copy_ids {
+            *map.entry(copy_id).or_default() += current_card_copies;
         }
     }
 
     map
-}
-
-pub fn result(cards: &[Card]) -> i32 {
-    card_count(cards).values().sum()
 }
 
 #[cfg(test)]
@@ -57,6 +58,6 @@ mod tests {
 
         let result = result(&cards);
 
-        assert_eq!(result, 6283755);
+        assert_eq!(result, 6_283_755);
     }
 }

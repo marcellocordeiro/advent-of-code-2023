@@ -1,11 +1,11 @@
-use crate::{number_intersection_count, Card};
+use crate::{number_matches_count, Card};
 
 pub fn result(cards: &[Card]) -> i32 {
-    cards.iter().map(each_result).sum()
+    cards.iter().map(score).sum()
 }
 
-fn each_result(card: &Card) -> i32 {
-    let count = number_intersection_count(card);
+fn score(card: &Card) -> i32 {
+    let count = number_matches_count(card);
 
     if count > 0 {
         2_i32.pow(count as u32 - 1)
@@ -28,7 +28,7 @@ mod tests {
 
         for (card, expected_result) in cards.into_iter().zip(results) {
             let id = card.id;
-            let actual_result = each_result(&card);
+            let actual_result = score(&card);
 
             assert_eq!(actual_result, expected_result, "for {id}");
         }
