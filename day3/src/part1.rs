@@ -28,7 +28,7 @@ mod tests {
     use common::split_by_line;
 
     #[test]
-    fn test_all() {
+    fn test_sample() {
         let lines = split_by_line(SAMPLE);
         let (numbers, symbols) = parse_engine(&lines);
 
