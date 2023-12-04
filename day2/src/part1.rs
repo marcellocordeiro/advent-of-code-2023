@@ -22,7 +22,6 @@ mod tests {
     use super::*;
     use crate::{parse_game, parse_games, INPUT, SAMPLE};
     use common::split_by_line;
-    use std::iter::zip;
 
     #[test]
     fn test_each_sample_line() {
@@ -31,10 +30,8 @@ mod tests {
 
         assert_eq!(lines.len(), results.len());
 
-        let zipped = zip(lines, results);
-
-        for (line, expected_result) in zipped {
-            let game = parse_game(&line);
+        for (line, expected_result) in lines.into_iter().zip(results) {
+            let game = parse_game(line);
             let actual_result = is_possible(&game);
 
             assert_eq!(actual_result, expected_result, "for {line}");

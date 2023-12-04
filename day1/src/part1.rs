@@ -21,7 +21,6 @@ mod tests {
     use super::*;
     use crate::{INPUT, SAMPLE_PART1};
     use common::split_by_line;
-    use std::iter::zip;
 
     #[test]
     fn test_each_sample_line() {
@@ -30,10 +29,8 @@ mod tests {
 
         assert_eq!(lines.len(), results.len());
 
-        let zipped = zip(lines, results);
-
-        for (line, expected_result) in zipped {
-            let actual_result = each_result(&line);
+        for (line, expected_result) in lines.into_iter().zip(results) {
+            let actual_result = each_result(line);
 
             assert_eq!(actual_result, expected_result, "for {line}");
         }
