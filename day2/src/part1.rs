@@ -42,7 +42,7 @@ mod tests {
     fn test_sample() {
         let lines = split_by_line(SAMPLE);
 
-        let games = lines.into_iter().map(parse_game).collect::<Vec<Game>>();
+        let games = lines.into_iter().map(parse_game).collect::<Vec<_>>();
         let actual_result = result(&games);
 
         assert_eq!(actual_result, 8);

@@ -39,7 +39,7 @@ mod tests {
         let map = card_count(&cards);
 
         assert_eq!(
-            map.into_iter().collect::<Vec<(i32, i32)>>(),
+            map.into_iter().collect::<Vec<_>>(),
             [(1, 1), (2, 2), (3, 4), (4, 8), (5, 14), (6, 1)]
         );
     }
