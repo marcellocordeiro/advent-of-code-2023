@@ -22,7 +22,7 @@ pub fn parse_game(line: &str) -> Game {
     let (id, raw_plays) = {
         let (id_part, plays_part) = line.split_once(": ").unwrap();
 
-        let id = id_part.replace("Game ", "").parse::<i32>().unwrap();
+        let id = id_part.replace("Game ", "").parse().unwrap();
         let raw_plays = plays_part.split("; ").collect::<Vec<_>>();
 
         (id, raw_plays)
