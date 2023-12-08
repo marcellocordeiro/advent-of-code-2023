@@ -1,33 +1,29 @@
 use crate::parse_input;
 
 pub fn result(input: &str) -> i32 {
-    let map = parse_input(input);
+    let guide = parse_input(input);
 
     let mut steps = 0;
-    let mut current_node = map
-        .nodes
-        .iter()
-        .position(|node| node.from == "AAA")
-        .unwrap();
+    let mut current_node = guide.nodes.iter().find(|node| node.from == "AAA").unwrap();
 
     loop {
-        for dir in map.instructions.chars() {
+        for dir in guide.instructions.chars() {
             let next_node = match dir {
-                'L' => &map.nodes[current_node].to_l,
-                'R' => &map.nodes[current_node].to_r,
+                'L' => &current_node.to_l,
+                'R' => &current_node.to_r,
 
-                _ => unreachable!(),
+                _ => unreachable!("Invalid direction"),
             };
 
-            current_node = map
+            current_node = guide
                 .nodes
                 .iter()
-                .position(|node| node.from == *next_node)
+                .find(|node| node.from == *next_node)
                 .unwrap();
 
             steps += 1;
 
-            if map.nodes[current_node].from == "ZZZ" {
+            if current_node.from == "ZZZ" {
                 return steps;
             }
         }

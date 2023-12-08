@@ -3,19 +3,18 @@ pub const SAMPLE1: &str = include_str!("sample1.txt");
 pub const SAMPLE2: &str = include_str!("sample2.txt");
 pub const SAMPLE3: &str = include_str!("sample3.txt"); // Part 2 only
 
-#[derive(Debug)]
-pub struct Map {
+pub struct Guide {
     pub instructions: String,
     pub nodes: Vec<Node>,
 }
-#[derive(Debug)]
+
 pub struct Node {
     from: String,
     to_l: String,
     to_r: String,
 }
 
-pub fn parse_input(input: &str) -> Map {
+pub fn parse_input(input: &str) -> Guide {
     let (instructions, nodes) = input.trim().split_once("\n\n").unwrap();
 
     let instructions = instructions.to_owned();
@@ -43,7 +42,7 @@ pub fn parse_input(input: &str) -> Map {
         })
         .collect();
 
-    Map {
+    Guide {
         instructions,
         nodes,
     }

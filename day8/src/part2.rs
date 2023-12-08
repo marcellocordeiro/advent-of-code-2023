@@ -2,40 +2,40 @@ use crate::parse_input;
 use num::Integer;
 
 pub fn result(input: &str) -> usize {
-    let map = parse_input(input);
+    let guide = parse_input(input);
 
-    map.nodes
+    guide
+        .nodes
         .iter()
-        .enumerate()
-        .filter(|(_, node)| node.from.ends_with('A'))
-        .map(|(position, _)| {
+        .filter(|node| node.from.ends_with('A'))
+        .map(|starting_node| {
             let mut steps = 0;
-            let mut current_node = position;
+            let mut current_node = starting_node;
 
             loop {
-                for dir in map.instructions.chars() {
+                for dir in guide.instructions.chars() {
                     let next_node = match dir {
-                        'L' => &map.nodes[current_node].to_l,
-                        'R' => &map.nodes[current_node].to_r,
+                        'L' => &current_node.to_l,
+                        'R' => &current_node.to_r,
 
-                        _ => unreachable!(),
+                        _ => unreachable!("Invalid direction"),
                     };
 
-                    current_node = map
+                    current_node = guide
                         .nodes
                         .iter()
-                        .position(|node| node.from == *next_node)
+                        .find(|node| node.from == *next_node)
                         .unwrap();
 
                     steps += 1;
 
-                    if map.nodes[current_node].from.ends_with('Z') {
+                    if current_node.from.ends_with('Z') {
                         return steps;
                     }
                 }
             }
         })
-        .reduce(|acc, step| acc.lcm(&step))
+        .reduce(|acc, steps| acc.lcm(&steps))
         .unwrap()
 }
 
