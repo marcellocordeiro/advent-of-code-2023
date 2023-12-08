@@ -1,6 +1,6 @@
 use crate::parse_input;
 
-pub fn result(input: &str) -> i32 {
+pub fn result(input: &str) -> usize {
     let guide = parse_input(input);
 
     let mut steps = 0;
