@@ -1,5 +1,3 @@
-use common::split_by_line;
-
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE: &str = include_str!("sample.txt");
 
@@ -14,8 +12,8 @@ pub struct Game {
     pub plays: Vec<Play>,
 }
 
-pub fn parse_games(input: &str) -> Vec<Game> {
-    split_by_line(input).into_iter().map(parse_game).collect()
+pub fn parse_input(input: &str) -> Vec<Game> {
+    input.lines().map(parse_game).collect()
 }
 
 pub fn parse_game(line: &str) -> Game {

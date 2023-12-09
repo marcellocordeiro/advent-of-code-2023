@@ -9,5 +9,4 @@ edition = "2021"
 workspace = true
 
 [dependencies]
-common = { workspace = true }
 itertools = { workspace = true }

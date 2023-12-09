@@ -1,5 +1,3 @@
-use common::split_by_line;
-
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE: &str = include_str!("sample.txt");
 
@@ -20,10 +18,8 @@ pub enum HandType {
 }
 
 pub fn parse_input(input: &str) -> Vec<Hand> {
-    let lines = split_by_line(input);
-
-    lines
-        .iter()
+    input
+        .lines()
         .map(|line| {
             let (cards, bid) = line.split_once(' ').unwrap();
 

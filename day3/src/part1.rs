@@ -24,13 +24,11 @@ fn has_surrounding_symbol(number: &EngineNumber, symbols: &[EngineSymbol]) -> bo
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{parse_engine, INPUT, SAMPLE};
-    use common::split_by_line;
+    use crate::{parse_input, INPUT, SAMPLE};
 
     #[test]
     fn test_sample() {
-        let lines = split_by_line(SAMPLE);
-        let (numbers, symbols) = parse_engine(&lines);
+        let (numbers, symbols) = parse_input(SAMPLE);
 
         let result = result(&numbers, &symbols);
 
@@ -39,8 +37,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let lines = split_by_line(INPUT);
-        let (numbers, symbols) = parse_engine(&lines);
+        let (numbers, symbols) = parse_input(INPUT);
 
         let result = result(&numbers, &symbols);
 

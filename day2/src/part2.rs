@@ -21,17 +21,16 @@ fn each_result(game: &Game) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{parse_game, parse_games, INPUT, SAMPLE};
-    use common::split_by_line;
+    use crate::{parse_game, parse_input, INPUT, SAMPLE};
 
     #[test]
     fn test_each_sample_line() {
-        let lines = split_by_line(SAMPLE);
+        let lines = SAMPLE.lines();
         let results = [48, 12, 1560, 630, 36];
 
-        assert_eq!(lines.len(), results.len());
+        assert_eq!(lines.clone().count(), results.len());
 
-        for (line, expected_result) in lines.into_iter().zip(results) {
+        for (line, expected_result) in lines.zip(results) {
             let game = parse_game(line);
             let actual_result = each_result(&game);
 
@@ -41,9 +40,7 @@ mod tests {
 
     #[test]
     fn test_sample() {
-        let lines = split_by_line(SAMPLE);
-
-        let games = lines.into_iter().map(parse_game).collect::<Vec<_>>();
+        let games = parse_input(SAMPLE);
         let actual_result = result(&games);
 
         assert_eq!(actual_result, 2286);
@@ -51,7 +48,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let games = parse_games(INPUT);
+        let games = parse_input(INPUT);
         let actual_result = result(&games);
 
         assert_eq!(actual_result, 72706);

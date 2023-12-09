@@ -1,5 +1,3 @@
-use common::split_by_line;
-
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE: &str = include_str!("sample.txt");
 
@@ -10,10 +8,8 @@ pub struct Card {
 }
 
 pub fn parse_input(input: &str) -> Vec<Card> {
-    let lines = split_by_line(input);
-
-    lines
-        .into_iter()
+    input
+        .lines()
         .map(|line| {
             let (id, card) = {
                 let (id, card) = line.split_once(": ").unwrap();

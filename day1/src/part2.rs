@@ -56,17 +56,16 @@ fn find_last(x: &str) -> Option<i32> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{INPUT, SAMPLE_PART2};
-    use common::split_by_line;
+    use crate::{parse_input, INPUT, SAMPLE_PART2};
 
     #[test]
     fn test_each() {
-        let lines = split_by_line(SAMPLE_PART2);
+        let lines = SAMPLE_PART2.lines();
         let results = [29, 83, 13, 24, 42, 14, 76];
 
-        assert_eq!(lines.len(), results.len());
+        assert_eq!(lines.clone().count(), results.len());
 
-        for (line, expected_result) in lines.into_iter().zip(results) {
+        for (line, expected_result) in lines.zip(results) {
             let actual_result = each_result(line);
 
             assert_eq!(actual_result, expected_result, "for: {line}");
@@ -75,7 +74,7 @@ mod tests {
 
     #[test]
     fn test_all() {
-        let lines = split_by_line(SAMPLE_PART2);
+        let lines = parse_input(SAMPLE_PART2);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 281);
@@ -83,7 +82,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let lines = split_by_line(INPUT);
+        let lines = parse_input(INPUT);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 54530);

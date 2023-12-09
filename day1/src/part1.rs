@@ -19,17 +19,16 @@ fn each_result(line: &str) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{INPUT, SAMPLE_PART1};
-    use common::split_by_line;
+    use crate::{parse_input, INPUT, SAMPLE_PART1};
 
     #[test]
     fn test_each_sample_line() {
-        let lines = split_by_line(SAMPLE_PART1);
+        let lines = SAMPLE_PART1.lines();
         let results = [12, 38, 15, 77];
 
-        assert_eq!(lines.len(), results.len());
+        assert_eq!(lines.clone().count(), results.len());
 
-        for (line, expected_result) in lines.into_iter().zip(results) {
+        for (line, expected_result) in lines.zip(results) {
             let actual_result = each_result(line);
 
             assert_eq!(actual_result, expected_result, "for {line}");
@@ -38,7 +37,7 @@ mod tests {
 
     #[test]
     fn test_sample() {
-        let lines = split_by_line(SAMPLE_PART1);
+        let lines = parse_input(SAMPLE_PART1);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 142);
@@ -46,7 +45,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let lines = split_by_line(INPUT);
+        let lines = parse_input(INPUT);
         let actual_result = result(&lines);
 
         assert_eq!(actual_result, 56049);

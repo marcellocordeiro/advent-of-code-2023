@@ -24,22 +24,15 @@ version = "0.1.0"
 [[package]]
 name = "day1"
 version = "0.1.0"
-dependencies = [
- "common",
-]
 
 [[package]]
 name = "day2"
 version = "0.1.0"
-dependencies = [
- "common",
-]
 
 [[package]]
 name = "day3"
 version = "0.1.0"
 dependencies = [
- "common",
  "itertools",
  "regex",
 ]
@@ -47,30 +40,22 @@ dependencies = [
 [[package]]
 name = "day4"
 version = "0.1.0"
-dependencies = [
- "common",
-]
 
 [[package]]
 name = "day5"
 version = "0.1.0"
 dependencies = [
- "common",
  "itertools",
 ]
 
 [[package]]
 name = "day6"
 version = "0.1.0"
-dependencies = [
- "common",
-]
 
 [[package]]
 name = "day7"
 version = "0.1.0"
 dependencies = [
- "common",
  "itertools",
 ]
 
@@ -78,7 +63,6 @@ dependencies = [
 name = "day8"
 version = "0.1.0"
 dependencies = [
- "common",
  "itertools",
  "num",
 ]
@@ -87,9 +71,7 @@ dependencies = [
 name = "day9"
 version = "0.1.0"
 dependencies = [
- "common",
  "itertools",
- "num",
 ]
 
 [[package]]

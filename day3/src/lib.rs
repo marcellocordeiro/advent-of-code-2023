@@ -17,15 +17,11 @@ pub struct EngineSymbol {
     pub row: usize,
 }
 
-pub fn is_symbol(ch: char) -> bool {
-    ch != '.' && !ch.is_ascii_digit()
-}
-
-pub fn parse_engine(lines: &[&str]) -> (Vec<EngineNumber>, Vec<EngineSymbol>) {
+pub fn parse_input(input: &str) -> (Vec<EngineNumber>, Vec<EngineSymbol>) {
     let re = Regex::new(r"\d+").unwrap();
 
-    lines
-        .iter()
+    input
+        .lines()
         .enumerate()
         .fold((vec![], vec![]), |mut acc, (row, line)| {
             let mut numbers = re
@@ -59,6 +55,10 @@ pub fn parse_engine(lines: &[&str]) -> (Vec<EngineNumber>, Vec<EngineSymbol>) {
 
             acc
         })
+}
+
+pub fn is_symbol(ch: char) -> bool {
+    ch != '.' && !ch.is_ascii_digit()
 }
 
 pub fn get_surrounding_coordinates(

@@ -1,7 +1,7 @@
-use day2::{parse_games, part1, part2, INPUT};
+use day2::{parse_input, part1, part2, INPUT};
 
 fn main() {
-    let games = parse_games(INPUT);
+    let games = parse_input(INPUT);
 
     let part1_result = part1::result(&games);
     let part2_result = part2::result(&games);

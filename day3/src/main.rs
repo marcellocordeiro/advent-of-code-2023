@@ -1,9 +1,7 @@
-use common::split_by_line;
-use day3::{parse_engine, part1, part2, INPUT};
+use day3::{parse_input, part1, part2, INPUT};
 
 fn main() {
-    let lines = split_by_line(INPUT);
-    let (numbers, symbols) = parse_engine(&lines);
+    let (numbers, symbols) = parse_input(INPUT);
 
     let part1_result = part1::result(&numbers, &symbols);
     let part2_result = part2::result(&numbers, &symbols);

@@ -20,17 +20,16 @@ fn is_possible(game: &Game) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{parse_game, parse_games, INPUT, SAMPLE};
-    use common::split_by_line;
+    use crate::{parse_game, parse_input, INPUT, SAMPLE};
 
     #[test]
     fn test_each_sample_line() {
-        let lines = split_by_line(SAMPLE);
+        let lines = SAMPLE.lines();
         let results = [true, true, false, false, true];
 
-        assert_eq!(lines.len(), results.len());
+        assert_eq!(lines.clone().count(), results.len());
 
-        for (line, expected_result) in lines.into_iter().zip(results) {
+        for (line, expected_result) in lines.zip(results) {
             let game = parse_game(line);
             let actual_result = is_possible(&game);
 
@@ -40,9 +39,7 @@ mod tests {
 
     #[test]
     fn test_sample() {
-        let lines = split_by_line(SAMPLE);
-
-        let games = lines.into_iter().map(parse_game).collect::<Vec<_>>();
+        let games = parse_input(SAMPLE);
         let actual_result = result(&games);
 
         assert_eq!(actual_result, 8);
@@ -50,7 +47,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let games = parse_games(INPUT);
+        let games = parse_input(INPUT);
         let actual_result = result(&games);
 
         assert_eq!(actual_result, 1853);

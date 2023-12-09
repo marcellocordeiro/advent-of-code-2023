@@ -1,8 +1,7 @@
-use common::split_by_line;
-use day1::{part1, part2, INPUT};
+use day1::{parse_input, part1, part2, INPUT};
 
 fn main() {
-    let lines = split_by_line(INPUT);
+    let lines = parse_input(INPUT);
 
     let part1_result = part1::result(&lines);
     let part2_result = part2::result(&lines);
