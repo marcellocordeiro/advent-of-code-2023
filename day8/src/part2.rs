@@ -42,11 +42,11 @@ pub fn result(input: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{INPUT, SAMPLE3};
+    use crate::{INPUT, SAMPLE_PART2};
 
     #[test]
-    fn test_sample3() {
-        let input = SAMPLE3;
+    fn test_sample() {
+        let input = SAMPLE_PART2;
 
         let result = result(input);
 
