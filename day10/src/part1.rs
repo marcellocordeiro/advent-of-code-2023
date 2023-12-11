@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::{parse_input, Direction, Maze, Tile};
+use crate::{parse_input, Maze, Tile};
 
 pub fn result(input: &str) -> usize {
     let maze = parse_input(input);
@@ -22,9 +22,7 @@ fn go_cycle(maze: &Maze, marked_maze: &mut [Vec<i64>]) -> usize {
 
     marked_maze[i_start][j_start] = 0;
 
-    let start_tile = get_start_tile(maze);
-
-    let mut current_dir = match start_tile {
+    let mut current_dir = match maze.tiles[i_start][j_start] {
         Tile::Connects(dir) => dir[0],
         _ => panic!("err"),
     };
@@ -55,8 +53,7 @@ fn go_cycle(maze: &Maze, marked_maze: &mut [Vec<i64>]) -> usize {
                 .filter(|dir| *dir != current_dir.moves_to())
                 .exactly_one()
                 .unwrap(),
-            Tile::Start => break,
-            Tile::Ground => panic!("err"),
+            _ => panic!("err"),
         };
 
         next_position = {
@@ -70,40 +67,6 @@ fn go_cycle(maze: &Maze, marked_maze: &mut [Vec<i64>]) -> usize {
     }
 
     count
-}
-
-fn get_start_tile(maze: &Maze) -> Tile {
-    let dirs = [
-        Direction::North,
-        Direction::South,
-        Direction::East,
-        Direction::West,
-    ]
-    .into_iter()
-    .filter(|dir| {
-        let next = {
-            let offset = dir.offset();
-
-            (
-                maze.start.0.saturating_add_signed(offset.0),
-                maze.start.1.saturating_add_signed(offset.1),
-            )
-        };
-
-        let expect = dir.moves_to();
-
-        let next_tile = maze.tiles[next.0][next.1];
-
-        let Tile::Connects(next_dirs) = next_tile else {
-            return false;
-        };
-
-        next_dirs.contains(&expect)
-    })
-    .sorted()
-    .collect_vec();
-
-    Tile::Connects(dirs.try_into().unwrap())
 }
 
 #[cfg(test)]

@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE_PART1: &str = include_str!("sample_part1.txt");
 pub const SAMPLE1_PART2: &str = include_str!("sample1_part2.txt");
@@ -81,7 +83,7 @@ impl Direction {
 }
 
 pub fn parse_input(input: &str) -> Maze {
-    let tiles = input
+    let mut tiles = input
         .lines()
         .map(|line| line.chars().map(Tile::from_ch).collect())
         .collect::<Vec<Vec<Tile>>>();
@@ -101,12 +103,50 @@ pub fn parse_input(input: &str) -> Maze {
 
     let start = start.unwrap();
 
+    let start_tile = get_start_tile(&tiles, start);
+
+    tiles[start.0][start.1] = start_tile;
+
     Maze {
         tiles,
         start,
         i_len,
         j_len,
     }
+}
+
+fn get_start_tile(tiles: &[Vec<Tile>], start: (usize, usize)) -> Tile {
+    let dirs = [
+        Direction::North,
+        Direction::South,
+        Direction::East,
+        Direction::West,
+    ]
+    .into_iter()
+    .filter(|dir| {
+        let next = {
+            let offset = dir.offset();
+
+            (
+                start.0.saturating_add_signed(offset.0),
+                start.1.saturating_add_signed(offset.1),
+            )
+        };
+
+        let expect = dir.moves_to();
+
+        let next_tile = tiles[next.0][next.1];
+
+        let Tile::Connects(next_dirs) = next_tile else {
+            return false;
+        };
+
+        next_dirs.contains(&expect)
+    })
+    .sorted()
+    .collect_vec();
+
+    Tile::Connects(dirs.try_into().unwrap())
 }
 
 pub mod part1;
