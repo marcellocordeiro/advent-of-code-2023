@@ -1,5 +1,7 @@
 pub const INPUT: &str = include_str!("input.txt");
-pub const SAMPLE: &str = include_str!("sample.txt");
+pub const SAMPLE_PART1: &str = include_str!("sample_part1.txt");
+pub const SAMPLE1_PART2: &str = include_str!("sample1_part2.txt");
+pub const SAMPLE2_PART2: &str = include_str!("sample2_part2.txt");
 
 #[derive(Debug)]
 pub struct Maze {

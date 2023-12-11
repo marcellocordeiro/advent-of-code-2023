@@ -109,11 +109,11 @@ fn get_start_tile(maze: &Maze) -> Tile {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{INPUT, SAMPLE};
+    use crate::{INPUT, SAMPLE_PART1};
 
     #[test]
     fn test_sample() {
-        let input = SAMPLE;
+        let input = SAMPLE_PART1;
 
         let result = result(input);
 
