@@ -15,7 +15,7 @@ mod tests {
     fn test_sample1() {
         let input = SAMPLE1_PART2;
 
-        let result = result(input);
+        let _ = result(input);
 
         // assert_eq!(result, 114);
     }
@@ -24,7 +24,7 @@ mod tests {
     fn test_sample2() {
         let input = SAMPLE2_PART2;
 
-        let result = result(input);
+        let _ = result(input);
 
         // assert_eq!(result, 114);
     }
@@ -33,7 +33,7 @@ mod tests {
     fn test_input() {
         let input = INPUT;
 
-        let result = result(input);
+        let _ = result(input);
 
         // assert_eq!(result, 1_901_217_887);
     }

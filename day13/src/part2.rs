@@ -1,24 +1,9 @@
-use std::collections::HashMap;
-
 use itertools::Itertools;
 
 use crate::{parse_input, Object};
 
 pub fn result(input: &str) -> usize {
     let maps = parse_input(input);
-
-    /*for map in maps {
-        if let Some(row) = find_row(&map) {
-            println!("Row: {row}");
-        } else if let Some(column) = find_column(&map) {
-            println!("Column: {column}");
-        } else {
-            panic!("Nothing was found");
-        }
-
-        println!();
-
-    }*/
 
     maps.into_iter()
         .map(|map| {

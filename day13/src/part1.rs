@@ -1,12 +1,10 @@
-use std::collections::HashMap;
-
 use itertools::Itertools;
 
 use crate::{parse_input, Object};
 
 pub fn result(input: &str) -> usize {
     let maps = parse_input(input);
-    
+
     maps.iter()
         .map(|map| {
             if let Some(row) = find_row(&map) {
