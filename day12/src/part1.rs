@@ -44,11 +44,11 @@ fn permutations<'a>(
 
     let count = match working_str.chars().nth(slice_start).unwrap() {
         '?' => {
-            let mut perm1 = working_str.to_owned();
-            perm1.replace_range(slice_start..slice_start + 1, "#");
+            let mut perm1 = working_str.clone();
+            perm1.replace_range(slice_start..=slice_start, "#");
 
-            let mut perm2 = working_str.to_owned();
-            perm2.replace_range(slice_start..slice_start + 1, ".");
+            let mut perm2 = working_str.clone();
+            perm2.replace_range(slice_start..=slice_start, ".");
 
             let a = permutations(perm1, slice_start + 1, ranges, cache);
             let b = permutations(perm2, slice_start + 1, ranges, cache);
@@ -64,7 +64,7 @@ fn permutations<'a>(
     count
 }
 
-fn is_correct(springs: &String, ranges: &[usize]) -> bool {
+fn is_correct(springs: &str, ranges: &[usize]) -> bool {
     let springs = springs.replace('.', " ");
     let springs_iter = springs.split_whitespace();
 

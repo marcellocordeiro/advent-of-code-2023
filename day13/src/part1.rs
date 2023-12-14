@@ -7,9 +7,9 @@ pub fn result(input: &str) -> usize {
 
     maps.iter()
         .map(|map| {
-            if let Some(row) = find_row(&map) {
+            if let Some(row) = find_row(map) {
                 row * 100
-            } else if let Some(column) = find_column(&map) {
+            } else if let Some(column) = find_column(map) {
                 column
             } else {
                 panic!("Nothing was found");

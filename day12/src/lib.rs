@@ -21,4 +21,4 @@ pub fn parse_input(input: &str) -> Vec<Springs> {
 }
 
 pub mod part1;
-// pub mod part2;
+pub mod part2;
