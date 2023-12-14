@@ -1,9 +1,7 @@
-use itertools::Itertools;
-
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE: &str = include_str!("sample.txt");
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Object {
     Sphere, // Rounded rocks
     Rock,
@@ -47,34 +45,10 @@ impl Platform {
         }
     }
 
-    /*pub fn drop_north(&mut self) {
-        let positions = (0..self.rows)
-            .rev()
-            .map(|i| (0..self.columns).map(|j| (i, j)).collect::<Vec<_>>());
+    pub fn total_load(map: &Vec<Vec<Object>>) -> usize {
+        let rows = map.len();
 
-        self.map.iter_mut().for_each(|row| {
-            let rowww_it = row.split_mut(|obj| *obj == Object::Rock);
-
-            rowww_it.for_each(|slice| {
-                let slice_len = slice.len();
-                let sphere_count = slice.iter().filter(|obj| **obj == Object::Sphere).count();
-
-                let empty = [Object::Empty].repeat(slice_len - sphere_count);
-                let spheres = [Object::Sphere].repeat(sphere_count);
-                let joined = [empty, spheres].concat();
-
-                for (old, new) in slice.iter_mut().zip(joined.iter()) {
-                    *old = *new;
-                }
-            })
-        });
-    }*/
-
-    pub fn total_load(&self) -> usize {
-        let rows = self.rows;
-
-        self.map
-            .iter()
+        map.iter()
             .enumerate()
             .map(|(row_i, row)| {
                 row.iter()
@@ -91,70 +65,75 @@ impl Platform {
     }
 
     pub fn drop_north(&mut self) {
-        let mut transposed = Self::transpose(&self.map);
+        let mut modified = true;
 
-        Self::drop_west_impl(&mut transposed);
+        while modified {
+            modified = false;
 
-        self.map = Self::transpose(&transposed);
+            for j in 0..self.columns {
+                for i in 1..self.rows {
+                    if self.map[i - 1][j] == Object::Empty && self.map[i][j] == Object::Sphere {
+                        self.map[i - 1][j] = Object::Sphere;
+                        self.map[i][j] = Object::Empty;
+                        modified = true;
+                    }
+                }
+            }
+        }
     }
 
     pub fn drop_south(&mut self) {
-        let mut transposed = Self::transpose(&self.map);
+        let mut modified = true;
 
-        Self::drop_east_impl(&mut transposed);
+        while modified {
+            modified = false;
 
-        self.map = Self::transpose(&transposed);
+            for j in 0..self.columns {
+                for i in 1..self.rows {
+                    if self.map[i][j] == Object::Empty && self.map[i - 1][j] == Object::Sphere {
+                        self.map[i][j] = Object::Sphere;
+                        self.map[i - 1][j] = Object::Empty;
+                        modified = true;
+                    }
+                }
+            }
+        }
     }
 
     pub fn drop_west(&mut self) {
-        Self::drop_west_impl(&mut self.map);
+        let mut modified = true;
+
+        while modified {
+            modified = false;
+
+            for i in 0..self.rows {
+                for j in 1..self.columns {
+                    if self.map[i][j - 1] == Object::Empty && self.map[i][j] == Object::Sphere {
+                        self.map[i][j - 1] = Object::Sphere;
+                        self.map[i][j] = Object::Empty;
+                        modified = true;
+                    }
+                }
+            }
+        }
     }
 
     pub fn drop_east(&mut self) {
-        Self::drop_east_impl(&mut self.map);
-    }
+        let mut modified = true;
 
-    fn drop_west_impl(map: &mut Vec<Vec<Object>>) {
-        map.iter_mut().for_each(|row| {
-            row.split_mut(|obj| *obj == Object::Rock).for_each(|slice| {
-                let slice_len = slice.len();
-                let sphere_count = slice.iter().filter(|obj| **obj == Object::Sphere).count();
+        while modified {
+            modified = false;
 
-                let empty = [Object::Empty].repeat(slice_len - sphere_count);
-                let spheres = [Object::Sphere].repeat(sphere_count);
-                let joined = [spheres, empty].concat();
-
-                for (old, new) in slice.iter_mut().zip(joined.iter()) {
-                    *old = *new;
+            for i in 0..self.rows {
+                for j in 1..self.columns {
+                    if self.map[i][j] == Object::Empty && self.map[i][j - 1] == Object::Sphere {
+                        self.map[i][j] = Object::Sphere;
+                        self.map[i][j - 1] = Object::Empty;
+                        modified = true;
+                    }
                 }
-            })
-        });
-    }
-
-    fn drop_east_impl(map: &mut Vec<Vec<Object>>) {
-        map.iter_mut().for_each(|row| {
-            row.split_mut(|obj| *obj == Object::Rock).for_each(|slice| {
-                let slice_len = slice.len();
-                let sphere_count = slice.iter().filter(|obj| **obj == Object::Sphere).count();
-
-                let empty = [Object::Empty].repeat(slice_len - sphere_count);
-                let spheres = [Object::Sphere].repeat(sphere_count);
-                let joined = [empty, spheres].concat();
-
-                for (old, new) in slice.iter_mut().zip(joined.iter()) {
-                    *old = *new;
-                }
-            })
-        });
-    }
-
-    fn transpose(map: &Vec<Vec<Object>>) -> Vec<Vec<Object>> {
-        let rows = map.len();
-        let columns = map[0].len();
-
-        (0..columns)
-            .map(|col| (0..rows).map(|row| map[row][col]).collect())
-            .collect()
+            }
+        }
     }
 }
 

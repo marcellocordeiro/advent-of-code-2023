@@ -1,10 +1,10 @@
-use crate::{parse_input, Object};
+use crate::{parse_input, Platform};
 
 pub fn result(input: &str) -> usize {
     let mut platform = parse_input(input);
     platform.drop_north();
 
-    platform.total_load()
+    Platform::total_load(&platform.map)
 }
 
 #[cfg(test)]
