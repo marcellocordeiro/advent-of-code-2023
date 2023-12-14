@@ -1,5 +1,10 @@
-pub fn result(_input: &str) -> usize {
-    0
+use crate::{parse_input, Object};
+
+pub fn result(input: &str) -> usize {
+    let mut platform = parse_input(input);
+    platform.drop_north();
+
+    platform.total_load()
 }
 
 #[cfg(test)]
@@ -13,7 +18,7 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 0);
+        assert_eq!(result, 136);
     }
 
     #[test]
@@ -22,6 +27,6 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 0);
+        assert_eq!(result, 108955);
     }
 }
