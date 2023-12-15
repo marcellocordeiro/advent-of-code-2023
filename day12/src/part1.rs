@@ -1,80 +1,12 @@
-use std::collections::HashMap;
-
-use crate::parse_input;
+use crate::{parse_input, permutations};
 
 pub fn result(input: &str) -> usize {
     let groups = parse_input(input);
 
-    /* for group in groups {
-        let p = permutations(group.conditions.to_owned(), 0, &group.ranges);
-
-        println!("{p}");
-    } */
-
-    let mut cache = HashMap::new();
-
     groups
         .iter()
-        .map(|group| permutations(group.conditions.to_owned(), 0, &group.ranges, &mut cache))
+        .map(|group| permutations(&group.conditions, &group.ranges))
         .sum()
-}
-
-fn permutations<'a>(
-    working_str: String,
-    slice_start: usize,
-    ranges: &'a [usize],
-    cache: &mut HashMap<(String, usize, &'a [usize]), usize>,
-) -> usize {
-    let key = (working_str.clone(), slice_start, ranges);
-
-    if let Some(count) = cache.get(&key) {
-        return *count;
-    }
-
-    if slice_start == working_str.len() {
-        if !is_correct(&working_str, ranges) {
-            return 0;
-        }
-
-        println!("{working_str}");
-        return 1;
-    }
-
-    let working_copy = working_str.clone();
-
-    let count = match working_str.chars().nth(slice_start).unwrap() {
-        '?' => {
-            let mut perm1 = working_str.clone();
-            perm1.replace_range(slice_start..=slice_start, "#");
-
-            let mut perm2 = working_str.clone();
-            perm2.replace_range(slice_start..=slice_start, ".");
-
-            let a = permutations(perm1, slice_start + 1, ranges, cache);
-            let b = permutations(perm2, slice_start + 1, ranges, cache);
-
-            a + b
-        }
-
-        _ => permutations(working_str, slice_start + 1, ranges, cache),
-    };
-
-    cache.insert((working_copy, slice_start, ranges), count);
-
-    count
-}
-
-fn is_correct(springs: &str, ranges: &[usize]) -> bool {
-    let springs = springs.replace('.', " ");
-    let springs_iter = springs.split_whitespace();
-
-    if springs_iter.clone().count() != ranges.len() {
-        return false;
-    }
-
-    springs_iter
-        .zip(ranges)
-        .all(|(group, range)| group.len() == *range)
 }
 
 #[cfg(test)]
