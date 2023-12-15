@@ -12,6 +12,8 @@ pub fn result(input: &str) -> usize {
 
     let coords = go_cycle(&maze, &mut marked_maze);
 
+    // Another idea: https://en.wikipedia.org/wiki/Point_in_polygon
+
     // Area inside (Shoelace formula)
     // https://en.wikipedia.org/wiki/Shoelace_formula
     let mut area: isize = 0;
