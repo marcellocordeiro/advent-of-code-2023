@@ -1,53 +1,19 @@
-use itertools::Itertools;
-use crate::{parse_input, Object};
+use crate::{find_column, find_row, parse_input};
 
 pub fn result(input: &str) -> usize {
     let maps = parse_input(input);
 
     maps.iter()
         .map(|map| {
-            if let Some(row) = find_row(map) {
+            if let Some(row) = find_row(map, None) {
                 row * 100
-            } else if let Some(column) = find_column(map) {
+            } else if let Some(column) = find_column(map, None) {
                 column
             } else {
                 panic!("Nothing was found");
             }
         })
         .sum()
-}
-
-fn find_row(map: &[Vec<Object>]) -> Option<usize> {
-    let pair = (0..map.len())
-        .tuple_windows()
-        .find(|(up_start, down_start)| {
-            (0..=*up_start)
-                .rev()
-                .zip(*down_start..map.len())
-                .all(|(up, down)| map[up] == map[down])
-        })?;
-
-    Some(pair.0 + 1)
-}
-
-fn find_column(map: &[Vec<Object>]) -> Option<usize> {
-    let row_size = map[0].len();
-
-    let pair = (0..row_size)
-        .tuple_windows()
-        .find(|(left_start, right_start)| {
-            (0..=*left_start)
-                .rev()
-                .zip(*right_start..row_size)
-                .all(|(left, right)| {
-                    let left_column_iter = map.iter().map(|row| row[left]);
-                    let right_column_iter = map.iter().map(|row| row[right]);
-
-                    left_column_iter.eq(right_column_iter)
-                })
-        })?;
-
-    Some(pair.0 + 1)
 }
 
 #[cfg(test)]

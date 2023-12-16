@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE: &str = include_str!("sample.txt");
 
@@ -23,6 +25,47 @@ impl Object {
             Self::Rock => Self::Ash,
         }
     }
+}
+
+pub fn find_row(map: &[Vec<Object>], ignore: Option<usize>) -> Option<usize> {
+    let pair = (0..map.len())
+        .tuple_windows()
+        .find(|(up_start, down_start)| {
+            if Some(*up_start) == ignore {
+                return false;
+            }
+
+            (0..=*up_start)
+                .rev()
+                .zip(*down_start..map.len())
+                .all(|(up, down)| map[up] == map[down])
+        })?;
+
+    Some(pair.0 + 1)
+}
+
+pub fn find_column(map: &[Vec<Object>], ignore: Option<usize>) -> Option<usize> {
+    let row_size = map[0].len();
+
+    let pair = (0..row_size)
+        .tuple_windows()
+        .find(|(left_start, right_start)| {
+            if Some(*left_start) == ignore {
+                return false;
+            }
+
+            (0..=*left_start)
+                .rev()
+                .zip(*right_start..row_size)
+                .all(|(left, right)| {
+                    let left_column_iter = map.iter().map(|row| row[left]);
+                    let right_column_iter = map.iter().map(|row| row[right]);
+
+                    left_column_iter.eq(right_column_iter)
+                })
+        })?;
+
+    Some(pair.0 + 1)
 }
 
 pub fn parse_input(input: &str) -> Vec<Vec<Vec<Object>>> {
