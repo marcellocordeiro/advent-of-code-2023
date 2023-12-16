@@ -1,5 +1,4 @@
 use itertools::Itertools;
-
 use crate::{parse_input, Maze, Tile};
 
 pub fn result(input: &str) -> usize {

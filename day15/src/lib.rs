@@ -1,10 +1,10 @@
 pub const INPUT: &str = include_str!("input.txt");
 pub const SAMPLE: &str = include_str!("sample.txt");
 
-pub fn hash(value: &str) -> usize {
+pub fn hash(value: &str) -> u8 {
     value
         .chars()
-        .fold(0_u8, |acc, ch| acc.wrapping_add(ch as u8).wrapping_mul(17)) as usize
+        .fold(0_u8, |acc, ch| acc.wrapping_add(ch as u8).wrapping_mul(17))
 }
 
 pub fn parse_input(input: &str) -> Vec<&str> {

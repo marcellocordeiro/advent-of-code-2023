@@ -1,5 +1,4 @@
 use itertools::Itertools;
-
 use crate::{parse_input, Object};
 
 pub fn result(input: &str) -> usize {
@@ -22,7 +21,6 @@ fn find_row(map: &[Vec<Object>]) -> Option<usize> {
     let pair = (0..map.len())
         .tuple_windows()
         .find(|(up_start, down_start)| {
-            // println!("Up start = {up_start} / Down start = {down_start}");
             (0..=*up_start)
                 .rev()
                 .zip(*down_start..map.len())

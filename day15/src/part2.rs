@@ -1,10 +1,9 @@
 use std::collections::HashMap;
-
 use crate::{hash, parse_input};
 
 pub fn result(input: &str) -> usize {
     let items = parse_input(input);
-    let mut boxes = HashMap::<usize, Vec<(&str, usize)>>::new();
+    let mut boxes = HashMap::<u8, Vec<(&str, usize)>>::new();
 
     for item in items {
         if let Some((label, focal_length)) = item.split_once('=') {
@@ -44,7 +43,7 @@ pub fn result(input: &str) -> usize {
         .map(|(k, v)| {
             v.iter()
                 .enumerate()
-                .map(|(i, val)| (k + 1) * (i + 1) * val.1)
+                .map(|(i, val)| ((k as usize) + 1) * (i + 1) * val.1)
                 .sum::<usize>()
         })
         .sum::<usize>()

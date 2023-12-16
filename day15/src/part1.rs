@@ -2,7 +2,7 @@ use crate::{hash, parse_input};
 
 pub fn result(input: &str) -> usize {
     let items = parse_input(input);
-    items.into_iter().map(hash).sum()
+    items.into_iter().map(|item| hash(item) as usize).sum()
 }
 
 #[cfg(test)]
