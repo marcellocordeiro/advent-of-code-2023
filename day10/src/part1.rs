@@ -1,5 +1,5 @@
-use itertools::Itertools;
 use crate::{parse_input, Maze, Tile};
+use itertools::Itertools;
 
 pub fn result(input: &str) -> usize {
     let maze = parse_input(input);
