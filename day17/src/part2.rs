@@ -81,7 +81,7 @@ pub fn get_shortest_path(grid: &Grid) -> usize {
             dijkstra(
                 &c,
                 |c| c.next_crucibles(grid),
-                |c| c.position == end_position,
+                |c| c.position == end_position && c.remaining <= 6,
             )
             .unwrap()
         })
@@ -112,15 +112,24 @@ pub fn get_shortest_path(grid: &Grid) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{INPUT, SAMPLE};
+    use crate::{INPUT, SAMPLE1, SAMPLE2};
 
     #[test]
     fn test_sample() {
-        let input = SAMPLE;
+        let input = SAMPLE1;
 
         let result = result(input);
 
         assert_eq!(result, 94);
+    }
+
+    #[test]
+    fn test_sample2() {
+        let input = SAMPLE2;
+
+        let result = result(input);
+
+        assert_eq!(result, 71);
     }
 
     #[test]
