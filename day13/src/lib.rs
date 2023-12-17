@@ -1,7 +1,7 @@
 use itertools::Itertools;
 
-pub const INPUT: &str = include_str!("input.txt");
-pub const SAMPLE: &str = include_str!("sample.txt");
+pub const INPUT: &str = include_str!("inputs/input.txt");
+pub const SAMPLE: &str = include_str!("inputs/sample.txt");
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Object {

@@ -1,7 +1,7 @@
-pub const INPUT: &str = include_str!("input.txt");
-pub const SAMPLE1_PART1: &str = include_str!("sample1_part1.txt");
-pub const SAMPLE2_PART1: &str = include_str!("sample2_part1.txt");
-pub const SAMPLE_PART2: &str = include_str!("sample_part2.txt");
+pub const INPUT: &str = include_str!("inputs/input.txt");
+pub const SAMPLE1_PART1: &str = include_str!("inputs/sample1_part1.txt");
+pub const SAMPLE2_PART1: &str = include_str!("inputs/sample2_part1.txt");
+pub const SAMPLE_PART2: &str = include_str!("inputs/sample_part2.txt");
 
 pub struct Guide {
     pub instructions: String,

@@ -1,6 +1,6 @@
-pub const INPUT: &str = include_str!("input.txt");
-pub const SAMPLE1: &str = include_str!("sample1.txt");
-pub const SAMPLE2: &str = include_str!("sample2.txt");
+pub const INPUT: &str = include_str!("inputs/input.txt");
+pub const SAMPLE1: &str = include_str!("inputs/sample1.txt");
+pub const SAMPLE2: &str = include_str!("inputs/sample2.txt");
 
 pub type Grid = Vec<Vec<usize>>;
 
