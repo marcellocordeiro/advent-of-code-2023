@@ -53,12 +53,12 @@ impl Direction {
 
 fn calculate_area(entries: Vec<Entry>) -> isize {
     let mut vertices = Vec::new();
-    let mut external_area = 0;
+    let mut boundary_points = 0;
 
-    let mut cur_i = 0_isize;
-    let mut cur_j = 0_isize;
+    let mut current_i = 0_isize;
+    let mut current_j = 0_isize;
 
-    vertices.push((cur_i, cur_j));
+    vertices.push((current_i, current_j));
 
     for Entry { direction, steps } in entries {
         let (i_offset, j_offset) = {
@@ -66,11 +66,11 @@ fn calculate_area(entries: Vec<Entry>) -> isize {
             (i * steps, j * steps)
         };
 
-        cur_i += i_offset;
-        cur_j += j_offset;
+        current_i += i_offset;
+        current_j += j_offset;
 
-        vertices.push((cur_i, cur_j));
-        external_area += steps;
+        vertices.push((current_i, current_j));
+        boundary_points += steps;
     }
 
     // Area inside (Shoelace formula)
@@ -85,9 +85,9 @@ fn calculate_area(entries: Vec<Entry>) -> isize {
 
     // Tiles inside (Pick's theorem)
     // https://en.wikipedia.org/wiki/Pick's_theorem
-    let points_inside = area - (external_area / 2) + 1;
+    let interior_points = area - (boundary_points / 2) + 1;
 
-    points_inside + external_area
+    interior_points + boundary_points
 }
 
 pub mod part1;

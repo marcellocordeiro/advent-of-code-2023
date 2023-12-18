@@ -19,7 +19,7 @@ fn parse_input(input: &str) -> Vec<Entry> {
                 let direction = &color[5..];
                 assert!(direction.len() == 1);
 
-                (steps, direction)
+                (direction, steps)
             };
 
             let direction = Direction::from_hex_ch(direction.chars().next().unwrap());
