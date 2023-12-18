@@ -60,16 +60,14 @@ impl Direction {
     }
 }
 
-fn possible_directions(
+fn possible_directions<const MIN_STEPS: usize, const MAX_STEPS: usize>(
     c: &Crucible,
-    min_steps: usize,
-    max_steps: usize,
 ) -> Vec<(Direction, usize)> {
     let mut possible = vec![];
 
-    if c.remaining <= (max_steps - min_steps) {
-        possible.push((c.direction.turn_left(), max_steps));
-        possible.push((c.direction.turn_right(), max_steps));
+    if c.remaining <= (MAX_STEPS - MIN_STEPS) {
+        possible.push((c.direction.turn_left(), MAX_STEPS));
+        possible.push((c.direction.turn_right(), MAX_STEPS));
     }
 
     if c.remaining > 0 {
@@ -79,13 +77,11 @@ fn possible_directions(
     possible
 }
 
-fn next_crucibles(
+fn next_crucibles<const MIN_STEPS: usize, const MAX_STEPS: usize>(
     c: &Crucible,
     grid: &Grid,
-    min_steps: usize,
-    max_steps: usize,
 ) -> Vec<(Crucible, usize)> {
-    let possible = possible_directions(c, min_steps, max_steps);
+    let possible = possible_directions::<MIN_STEPS, MAX_STEPS>(c);
 
     possible
         .into_iter()
@@ -113,27 +109,27 @@ fn next_crucibles(
         .collect()
 }
 
-fn get_shortest_path(grid: &Grid, min_steps: usize, max_steps: usize) -> usize {
+fn get_shortest_path<const MIN_STEPS: usize, const MAX_STEPS: usize>(grid: &Grid) -> usize {
     let starting_crucibles = [
         Crucible {
             position: Position(0, 0),
             direction: Direction::East,
-            remaining: max_steps,
+            remaining: MAX_STEPS,
             weight: 0,
         },
         Crucible {
             position: Position(0, 0),
             direction: Direction::South,
-            remaining: max_steps,
+            remaining: MAX_STEPS,
             weight: 0,
         },
     ];
 
-    let successors = |c: &Crucible| next_crucibles(c, grid, min_steps, max_steps);
+    let successors = |c: &Crucible| next_crucibles::<MIN_STEPS, MAX_STEPS>(c, grid);
 
     let end_position = Position(grid.len() - 1, grid[0].len() - 1);
     let success =
-        |c: &Crucible| c.position == end_position && c.remaining <= (max_steps - min_steps);
+        |c: &Crucible| c.position == end_position && c.remaining <= (MAX_STEPS - MIN_STEPS);
 
     let results = starting_crucibles
         .into_iter()

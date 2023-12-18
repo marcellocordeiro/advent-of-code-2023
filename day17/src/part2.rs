@@ -6,7 +6,7 @@ const MAX_STEPS: usize = 10;
 pub fn result(input: &str) -> usize {
     let grid = parse_input(input);
 
-    get_shortest_path(&grid, MIN_STEPS, MAX_STEPS)
+    get_shortest_path::<MIN_STEPS, MAX_STEPS>(&grid)
 }
 
 #[cfg(test)]
