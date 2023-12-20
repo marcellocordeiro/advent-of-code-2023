@@ -1,4 +1,4 @@
-use crate::{parse_input, Action, Compare, PartRatings, Rule, Workflow};
+use crate::{parse_input, Action, PartRatings, Rule, Workflow};
 
 pub fn result(input: &str) -> usize {
     let (workflows, all_part_ratings) = parse_input(input);
@@ -31,20 +31,13 @@ fn test_part_with_workflow(part_ratings: &PartRatings, workflow: &Workflow) -> A
             Rule::Test {
                 part,
                 compare,
-                value,
                 action,
-            } => match compare {
-                Compare::Less => {
-                    if part_ratings.get_from_str(part) < *value {
-                        return action.clone();
-                    }
+            } => {
+                if compare.test_with(part_ratings.get_from_str(part)) {
+                    return action.clone();
                 }
-                Compare::Greater => {
-                    if part_ratings.get_from_str(part) > *value {
-                        return action.clone();
-                    }
-                }
-            },
+            }
+
             Rule::Action(action) => return action.clone(),
         }
     }

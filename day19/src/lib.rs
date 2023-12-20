@@ -3,15 +3,22 @@ pub const SAMPLE: &str = include_str!("inputs/sample.txt");
 
 #[derive(Debug, Clone, Copy)]
 enum Compare {
-    Less,
-    Greater,
+    Less(usize),
+    Greater(usize),
 }
 
 impl Compare {
     fn flip(self) -> Self {
         match self {
-            Self::Less => Self::Greater,
-            Self::Greater => Self::Less,
+            Self::Less(operand) => Self::Greater(operand - 1),
+            Self::Greater(operand) => Self::Less(operand + 1),
+        }
+    }
+
+    fn test_with(self, value: usize) -> bool {
+        match self {
+            Self::Less(operand) => value < operand,
+            Self::Greater(operand) => value > operand,
         }
     }
 }
@@ -38,7 +45,6 @@ enum Rule {
     Test {
         part: String,
         compare: Compare,
-        value: usize,
         action: Action,
     },
     Action(Action),
@@ -62,8 +68,7 @@ impl Rule {
 
                 Self::Test {
                     part,
-                    compare: Compare::Less,
-                    value,
+                    compare: Compare::Less(value),
                     action,
                 }
             } else if test_part.contains('>') {
@@ -74,8 +79,7 @@ impl Rule {
 
                 Self::Test {
                     part,
-                    compare: Compare::Greater,
-                    value,
+                    compare: Compare::Greater(value),
                     action,
                 }
             } else {

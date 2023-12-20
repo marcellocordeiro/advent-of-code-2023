@@ -7,7 +7,6 @@ pub fn result(input: &str) -> usize {
     let ranges = RatingsRanges::new();
 
     get_ranges(ranges, next_workflow, &workflows)
-    //get_count(next_workflow, &workflows)
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -59,12 +58,12 @@ impl RatingsRanges {
             * (self.s.1 - self.s.0 + 1)
     }
 
-    fn adjust_range(&mut self, rating: &str, compare: Compare, value: usize) {
+    fn adjust_range(&mut self, rating: &str, compare: Compare) {
         let current_range = self.get_from_str(rating);
 
         let new_range = match compare {
-            Compare::Less => (current_range.0, current_range.1.min(value - 1)),
-            Compare::Greater => (current_range.0.max(value + 1), current_range.1),
+            Compare::Less(operand) => (current_range.0, current_range.1.min(operand - 1)),
+            Compare::Greater(operand) => (current_range.0.max(operand + 1), current_range.1),
         };
 
         self.set_from_str(rating, new_range);
@@ -87,13 +86,12 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
             Rule::Test {
                 part,
                 compare,
-                value,
                 action: Action::MoveTo(workflow_name),
             } => {
                 // Try the next workflow
                 let next_ranges = {
                     let mut r = current_ranges.clone();
-                    r.adjust_range(part, *compare, *value);
+                    r.adjust_range(part, *compare);
 
                     r
                 };
@@ -107,14 +105,7 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
                 // Flip and keep going...
 
                 // Get range difference
-                let adjusted_value = {
-                    match *compare {
-                        Compare::Less => *value - 1,
-                        Compare::Greater => *value + 1,
-                    }
-                };
-
-                current_ranges.adjust_range(part, compare.flip(), adjusted_value);
+                current_ranges.adjust_range(part, compare.flip());
 
                 assert!(current_ranges.is_valid(), "Adjusted range is not valid");
 
@@ -124,13 +115,12 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
             Rule::Test {
                 part,
                 compare,
-                value,
                 action: Action::Accept,
             } => {
                 // Maybe accepted
                 let next_ranges = {
                     let mut r = current_ranges.clone();
-                    r.adjust_range(part, *compare, *value);
+                    r.adjust_range(part, *compare);
 
                     r
                 };
@@ -145,14 +135,7 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
                 // Flip and keep going...
 
                 // Get range difference
-                let adjusted_value = {
-                    match *compare {
-                        Compare::Less => *value - 1,
-                        Compare::Greater => *value + 1,
-                    }
-                };
-
-                current_ranges.adjust_range(part, compare.flip(), adjusted_value);
+                current_ranges.adjust_range(part, compare.flip());
 
                 assert!(current_ranges.is_valid(), "Adjusted range is not valid");
 
@@ -162,17 +145,9 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
             Rule::Test {
                 part,
                 compare,
-                value,
                 action: Action::Reject,
             } => {
-                let adjusted_value = {
-                    match *compare {
-                        Compare::Less => *value - 1,
-                        Compare::Greater => *value + 1,
-                    }
-                };
-
-                current_ranges.adjust_range(part, compare.flip(), adjusted_value);
+                current_ranges.adjust_range(part, compare.flip());
 
                 assert!(current_ranges.is_valid(), "Adjusted range is not valid");
 
@@ -259,8 +234,6 @@ mod tests {
         let input = SAMPLE;
 
         let result = result(input);
-
-        println!("Result = {result}");
 
         assert_eq!(result, 167409079868000);
     }
