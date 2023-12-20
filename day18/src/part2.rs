@@ -36,7 +36,7 @@ mod tests {
     use crate::{INPUT, SAMPLE};
 
     #[test]
-    fn test_sample1() {
+    fn test_sample() {
         let input = SAMPLE;
 
         let result = result(input);

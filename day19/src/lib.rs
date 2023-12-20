@@ -4,21 +4,30 @@ pub const SAMPLE: &str = include_str!("inputs/sample.txt");
 #[derive(Debug, Clone, Copy)]
 enum Compare {
     Less,
-    More,
+    Greater,
 }
 
-#[derive(Debug, Clone)]
+impl Compare {
+    fn flip(self) -> Self {
+        match self {
+            Self::Less => Self::Greater,
+            Self::Greater => Self::Less,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 enum Action {
     MoveTo(String),
-    Reprove,
-    Approve,
+    Reject,
+    Accept,
 }
 
 impl Action {
     fn from_str(raw: &str) -> Self {
         match raw {
-            "R" => Self::Reprove,
-            "A" => Self::Approve,
+            "R" => Self::Reject,
+            "A" => Self::Accept,
             part => Self::MoveTo(part.to_owned()),
         }
     }
@@ -65,7 +74,7 @@ impl Rule {
 
                 Self::Test {
                     part,
-                    compare: Compare::More,
+                    compare: Compare::Greater,
                     value,
                     action,
                 }
@@ -137,14 +146,14 @@ impl PartRatings {
         }
     }
 
-    fn get_from_str(&self, value: &str) -> usize {
-        match value {
+    fn get_from_str(&self, rating: &str) -> usize {
+        match rating {
             "x" => self.x,
             "m" => self.m,
             "a" => self.a,
             "s" => self.s,
 
-            _ => panic!("Invalid type"),
+            _ => panic!("Invalid rating"),
         }
     }
 }

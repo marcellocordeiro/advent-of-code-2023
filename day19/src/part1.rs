@@ -16,8 +16,8 @@ pub fn result(input: &str) -> usize {
                         current_workflow =
                             workflows.iter().find(|w| w.name == workflow_name).unwrap();
                     }
-                    Action::Reprove => return false,
-                    Action::Approve => return true,
+                    Action::Reject => return false,
+                    Action::Accept => return true,
                 }
             }
         })
@@ -39,7 +39,7 @@ fn test_part_with_workflow(part_ratings: &PartRatings, workflow: &Workflow) -> A
                         return action.clone();
                     }
                 }
-                Compare::More => {
+                Compare::Greater => {
                     if part_ratings.get_from_str(part) > *value {
                         return action.clone();
                     }
@@ -58,7 +58,7 @@ mod tests {
     use crate::{INPUT, SAMPLE};
 
     #[test]
-    fn test_sample1() {
+    fn test_sample() {
         let input = SAMPLE;
 
         let result = result(input);
