@@ -1,39 +1,38 @@
-use crate::{parse_input, Action, PartRatings, Rule, Workflow};
+use crate::{parse_input, Action, Part, Rule, Workflow};
 
 pub fn result(input: &str) -> usize {
-    let (workflows, all_part_ratings) = parse_input(input);
+    let (workflows, parts) = parse_input(input);
 
-    all_part_ratings
+    parts
         .into_iter()
-        .filter(|part_ratings| {
+        .filter(|part| {
             let mut current_workflow = workflows.iter().find(|w| w.name == "in").unwrap();
 
             loop {
-                let next_action = test_part_with_workflow(part_ratings, current_workflow);
+                let next_action = test_part_with_workflow(part, current_workflow);
 
                 match next_action {
-                    Action::MoveTo(workflow_name) => {
-                        current_workflow =
-                            workflows.iter().find(|w| w.name == workflow_name).unwrap();
+                    Action::MoveTo(name) => {
+                        current_workflow = workflows.iter().find(|w| w.name == name).unwrap();
                     }
                     Action::Reject => return false,
                     Action::Accept => return true,
                 }
             }
         })
-        .map(|part_ratings| part_ratings.x + part_ratings.m + part_ratings.a + part_ratings.s)
+        .map(|part| part.x + part.m + part.a + part.s)
         .sum()
 }
 
-fn test_part_with_workflow(part_ratings: &PartRatings, workflow: &Workflow) -> Action {
+fn test_part_with_workflow(part: &Part, workflow: &Workflow) -> Action {
     for rule in &workflow.rules {
         match rule {
             Rule::Test {
-                part,
+                rating,
                 compare,
                 action,
             } => {
-                if compare.test_with(part_ratings.get_from_str(part)) {
+                if compare.test_with(part.get_from_str(rating)) {
                     return action.clone();
                 }
             }
@@ -42,7 +41,7 @@ fn test_part_with_workflow(part_ratings: &PartRatings, workflow: &Workflow) -> A
         }
     }
 
-    panic!("Unable to complete the workflow");
+    unreachable!("Unable to complete the workflow");
 }
 
 #[cfg(test)]

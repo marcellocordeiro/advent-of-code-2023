@@ -43,7 +43,7 @@ impl Action {
 #[derive(Debug)]
 enum Rule {
     Test {
-        part: String,
+        rating: String,
         compare: Compare,
         action: Action,
     },
@@ -67,7 +67,7 @@ impl Rule {
                 let value = value.parse().unwrap();
 
                 Self::Test {
-                    part,
+                    rating: part,
                     compare: Compare::Less(value),
                     action,
                 }
@@ -78,7 +78,7 @@ impl Rule {
                 let value = value.parse().unwrap();
 
                 Self::Test {
-                    part,
+                    rating: part,
                     compare: Compare::Greater(value),
                     action,
                 }
@@ -112,14 +112,14 @@ impl Workflow {
 }
 
 #[derive(Debug)]
-struct PartRatings {
+struct Part {
     x: usize,
     m: usize,
     a: usize,
     s: usize,
 }
 
-impl PartRatings {
+impl Part {
     #[must_use]
     fn from_str(raw: &str) -> Self {
         let raw = &raw[1..(raw.len() - 1)];
@@ -130,9 +130,9 @@ impl PartRatings {
         let mut s = None;
 
         for item in raw.split(',') {
-            let (var, value) = item.split_once('=').unwrap();
+            let (rating, value) = item.split_once('=').unwrap();
 
-            match var {
+            match rating {
                 "x" => x = Some(value.parse().unwrap()),
                 "m" => m = Some(value.parse().unwrap()),
                 "a" => a = Some(value.parse().unwrap()),
@@ -162,11 +162,11 @@ impl PartRatings {
     }
 }
 
-fn parse_input(input: &str) -> (Vec<Workflow>, Vec<PartRatings>) {
+fn parse_input(input: &str) -> (Vec<Workflow>, Vec<Part>) {
     let (workflows, ratings) = input.trim().split_once("\n\n").unwrap();
 
     let workflows = workflows.lines().map(Workflow::from_str).collect();
-    let ratings = ratings.lines().map(PartRatings::from_str).collect();
+    let ratings = ratings.lines().map(Part::from_str).collect();
 
     (workflows, ratings)
 }

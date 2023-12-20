@@ -3,21 +3,21 @@ use crate::{parse_input, Action, Compare, Rule, Workflow};
 pub fn result(input: &str) -> usize {
     let (workflows, _) = parse_input(input);
 
-    let next_workflow = workflows.iter().find(|w| w.name == "in").unwrap();
-    let ranges = RatingsRanges::new();
+    let selected_workflow = workflows.iter().find(|w| w.name == "in").unwrap();
+    let ranges = RatingRanges::new();
 
-    get_ranges(ranges, next_workflow, &workflows)
+    get_combinations(ranges, selected_workflow, &workflows)
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-struct RatingsRanges {
+struct RatingRanges {
     x: (usize, usize),
     m: (usize, usize),
     a: (usize, usize),
     s: (usize, usize),
 }
 
-impl RatingsRanges {
+impl RatingRanges {
     fn new() -> Self {
         let default = (1, 4000);
 
@@ -77,35 +77,39 @@ impl RatingsRanges {
     }
 }
 
-fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[Workflow]) -> usize {
+fn get_combinations(
+    ranges: RatingRanges,
+    selected_workflow: &Workflow,
+    workflows: &[Workflow],
+) -> usize {
     let mut current_ranges = ranges;
     let mut current_result = 0;
 
-    for rule in &current_workflow.rules {
+    for rule in &selected_workflow.rules {
         match rule {
             Rule::Test {
-                part,
+                rating,
                 compare,
-                action: Action::MoveTo(workflow_name),
+                action: Action::MoveTo(name),
             } => {
                 // Try the next workflow
                 let next_ranges = {
                     let mut r = current_ranges.clone();
-                    r.adjust_range(part, *compare);
+                    r.adjust_range(rating, *compare);
 
                     r
                 };
 
-                let next_workflow = workflows.iter().find(|w| w.name == *workflow_name).unwrap();
+                let next_workflow = workflows.iter().find(|w| w.name == *name).unwrap();
 
                 if next_ranges.is_valid() {
-                    current_result += get_ranges(next_ranges, next_workflow, workflows);
+                    current_result += get_combinations(next_ranges, next_workflow, workflows);
                 }
 
                 // Flip and keep going...
 
                 // Get range difference
-                current_ranges.adjust_range(part, compare.flip());
+                current_ranges.adjust_range(rating, compare.flip());
 
                 assert!(current_ranges.is_valid(), "Adjusted range is not valid");
 
@@ -113,14 +117,14 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
             }
 
             Rule::Test {
-                part,
+                rating,
                 compare,
                 action: Action::Accept,
             } => {
                 // Maybe accepted
                 let next_ranges = {
                     let mut r = current_ranges.clone();
-                    r.adjust_range(part, *compare);
+                    r.adjust_range(rating, *compare);
 
                     r
                 };
@@ -135,7 +139,7 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
                 // Flip and keep going...
 
                 // Get range difference
-                current_ranges.adjust_range(part, compare.flip());
+                current_ranges.adjust_range(rating, compare.flip());
 
                 assert!(current_ranges.is_valid(), "Adjusted range is not valid");
 
@@ -143,11 +147,11 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
             }
 
             Rule::Test {
-                part,
+                rating,
                 compare,
                 action: Action::Reject,
             } => {
-                current_ranges.adjust_range(part, compare.flip());
+                current_ranges.adjust_range(rating, compare.flip());
 
                 assert!(current_ranges.is_valid(), "Adjusted range is not valid");
 
@@ -157,7 +161,7 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
             Rule::Action(Action::MoveTo(name)) => {
                 let next_workflow = workflows.iter().find(|w| w.name == *name).unwrap();
 
-                return current_result + get_ranges(current_ranges, next_workflow, workflows);
+                return current_result + get_combinations(current_ranges, next_workflow, workflows);
             }
 
             Rule::Action(Action::Accept) => {
@@ -170,53 +174,6 @@ fn get_ranges(ranges: RatingsRanges, current_workflow: &Workflow, workflows: &[W
             Rule::Action(Action::Reject) => {
                 // Rejected, return what we have so far
                 return current_result;
-            }
-        };
-    }
-
-    unreachable!();
-}
-
-#[allow(dead_code)]
-fn get_count(current_workflow: &Workflow, workflows: &[Workflow]) -> usize {
-    let mut success = 0;
-
-    for rule in &current_workflow.rules {
-        match rule {
-            Rule::Test {
-                action: Action::MoveTo(workflow_name),
-                ..
-            } => {
-                let next_workflow = workflows.iter().find(|w| w.name == *workflow_name).unwrap();
-                success += get_count(next_workflow, workflows);
-            }
-
-            Rule::Test {
-                action: Action::Accept,
-                ..
-            } => {
-                success += 1;
-            }
-
-            Rule::Test {
-                action: Action::Reject,
-                ..
-            } => {
-                continue;
-            }
-
-            Rule::Action(Action::MoveTo(name)) => {
-                let next_workflow = workflows.iter().find(|w| w.name == *name).unwrap();
-
-                return success + get_count(next_workflow, workflows);
-            }
-
-            Rule::Action(Action::Accept) => {
-                return success + 1;
-            }
-
-            Rule::Action(Action::Reject) => {
-                return success;
             }
         };
     }
