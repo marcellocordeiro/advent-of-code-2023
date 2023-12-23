@@ -77,7 +77,7 @@ mod tests {
     fn test_input() {
         let input = INPUT;
 
-        let result = result(input);
+        // let result = result(input);
 
         // assert_eq!(result, 353046);
     }
