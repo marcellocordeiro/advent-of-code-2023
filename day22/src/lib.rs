@@ -43,7 +43,7 @@ fn parse_input(input: &str) -> Vec<Brick> {
             let from = {
                 let (x, y, z) = from
                     .split(',')
-                    .map(|x| x.parse::<usize>().unwrap())
+                    .map(|x| x.parse().unwrap())
                     .collect_tuple()
                     .unwrap();
 
@@ -53,7 +53,7 @@ fn parse_input(input: &str) -> Vec<Brick> {
             let to = {
                 let (x, y, z) = to
                     .split(',')
-                    .map(|x| x.parse::<usize>().unwrap())
+                    .map(|x| x.parse().unwrap())
                     .collect_tuple()
                     .unwrap();
 
@@ -62,6 +62,7 @@ fn parse_input(input: &str) -> Vec<Brick> {
 
             Brick { id, from, to }
         })
+        .sorted_by(|a, b| a.from.2.cmp(&b.from.2))
         .collect()
 }
 
