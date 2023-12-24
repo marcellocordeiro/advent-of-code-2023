@@ -9,4 +9,6 @@ edition = "2021"
 workspace = true
 
 [dependencies]
+colored = { workspace = true }
 itertools = { workspace = true }
+pathfinding = { workspace = true }
