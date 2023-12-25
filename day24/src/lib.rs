@@ -3,12 +3,13 @@ use itertools::Itertools;
 pub const INPUT: &str = include_str!("inputs/input.txt");
 pub const SAMPLE: &str = include_str!("inputs/sample.txt");
 
-struct Hail {
+#[allow(dead_code)]
+struct Hailstone {
     position: (isize, isize, isize),
     velocity: (isize, isize, isize),
 }
 
-fn parse_input(input: &str) -> Vec<Hail> {
+fn parse_input(input: &str) -> Vec<Hailstone> {
     input
         .lines()
         .map(|line| {
@@ -22,14 +23,14 @@ fn parse_input(input: &str) -> Vec<Hail> {
                 .map(|p| p.parse().unwrap())
                 .collect_tuple()
                 .unwrap();
-            
+
             let velocity = velocity
                 .split(", ")
                 .map(|v| v.parse().unwrap())
                 .collect_tuple()
                 .unwrap();
 
-            Hail { position, velocity }
+            Hailstone { position, velocity }
         })
         .collect_vec()
 }

@@ -1,4 +1,7 @@
-pub fn result(_input: &str) -> usize {
+use crate::parse_input;
+
+pub fn result(input: &str) -> usize {
+    let _hailstones = parse_input(input);
     0
 }
 
