@@ -49,7 +49,7 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 38_220_708);
+        assert_eq!(result, 38220708);
     }
 
     #[test]

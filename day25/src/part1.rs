@@ -1,3 +1,8 @@
+// Ideas
+//
+// Max-flow min-cut theorem
+// Ford-Fulkerson algorithm
+
 pub fn result(_input: &str) -> usize {
     0
 }

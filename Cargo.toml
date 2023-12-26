@@ -3,8 +3,8 @@ members = ["common", "day*"]
 resolver = "2"
 
 [workspace.lints.clippy]
-pedantic = "warn"
-nursery = "warn"
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
 match_same_arms = "allow"
 cast_lossless = "allow"
 unused_self = "allow"
@@ -20,6 +20,8 @@ missing_const_for_fn = "allow"
 cast_possible_truncation = "allow" # Intentional, but may be possible to mitigate.
 verbose_bit_mask = "allow"         # As per the docs, LLVM may not be able to generate better code.
 cast_possible_wrap = "allow"
+unreadable_literal = "allow"
+option_if_let_else = "allow" # This one is annoying and less readable.
 
 [workspace.dependencies.common]
 path = "./common"

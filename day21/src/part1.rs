@@ -70,15 +70,15 @@ mod tests {
 
         let result = result(input);
 
-        //assert_eq!(result, 19114);
+        assert_eq!(result, 0);
     }
 
     #[test]
     fn test_input() {
         let input = INPUT;
 
-        // let result = result(input);
+        let result = result(input);
 
-        // assert_eq!(result, 353046);
+        assert_eq!(result, 0);
     }
 }

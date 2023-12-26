@@ -42,7 +42,7 @@ mod tests {
 
         let result = result(&numbers, &symbols);
 
-        assert_eq!(result, 467_835);
+        assert_eq!(result, 467835);
     }
 
     #[test]
@@ -51,6 +51,6 @@ mod tests {
 
         let result = result(&numbers, &symbols);
 
-        assert_eq!(result, 80_253_814);
+        assert_eq!(result, 80253814);
     }
 }

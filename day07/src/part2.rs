@@ -68,6 +68,6 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 248_750_248);
+        assert_eq!(result, 248750248);
     }
 }

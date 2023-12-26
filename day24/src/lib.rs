@@ -20,13 +20,13 @@ fn parse_input(input: &str) -> Vec<Hailstone> {
 
             let position = position
                 .split(", ")
-                .map(|p| p.parse().unwrap())
+                .map(|p| p.trim().parse().unwrap())
                 .collect_tuple()
                 .unwrap();
 
             let velocity = velocity
                 .split(", ")
-                .map(|v| v.parse().unwrap())
+                .map(|v| v.trim().parse().unwrap())
                 .collect_tuple()
                 .unwrap();
 

@@ -25,7 +25,7 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 82_000_210);
+        assert_eq!(result, 82000210);
     }
 
     #[test]
@@ -34,6 +34,6 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 726_820_169_514);
+        assert_eq!(result, 726820169514);
     }
 }

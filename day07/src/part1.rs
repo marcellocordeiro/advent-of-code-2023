@@ -60,6 +60,6 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 249_390_788);
+        assert_eq!(result, 249390788);
     }
 }

@@ -29,6 +29,6 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 1_901_217_887);
+        assert_eq!(result, 1901217887);
     }
 }

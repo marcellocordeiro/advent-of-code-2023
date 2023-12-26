@@ -10,6 +10,7 @@ pub enum Object {
 }
 
 impl Object {
+    #[must_use]
     fn from_ch(ch: char) -> Self {
         match ch {
             '.' => Self::Ash,
@@ -19,6 +20,7 @@ impl Object {
         }
     }
 
+    #[must_use]
     pub fn flip(self) -> Self {
         match self {
             Self::Ash => Self::Rock,

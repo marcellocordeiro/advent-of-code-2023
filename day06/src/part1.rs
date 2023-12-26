@@ -69,7 +69,7 @@ mod tests {
 
         let result = result(input);
 
-        assert_eq!(result, 741_000);
+        assert_eq!(result, 741000);
     }
 
     #[test]

@@ -19,10 +19,8 @@ pub fn result(input: &str) -> usize {
 
                     let result = if let Some(row) = find_row(&new_map, regular_row_result) {
                         Some(row * 100)
-                    } else if let Some(column) = find_column(&new_map, regular_column_result) {
-                        Some(column)
                     } else {
-                        None
+                        find_column(&new_map, regular_column_result)
                     };
 
                     if let Some(result) = result {

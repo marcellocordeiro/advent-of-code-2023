@@ -58,6 +58,6 @@ mod tests {
 
         let result = result(&cards);
 
-        assert_eq!(result, 6_283_755);
+        assert_eq!(result, 6283755);
     }
 }
