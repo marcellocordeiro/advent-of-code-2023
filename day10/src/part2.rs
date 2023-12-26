@@ -1,7 +1,7 @@
 use crate::{parse_input, Maze, Tile};
 use itertools::Itertools;
 
-pub fn result(input: &str) -> usize {
+pub fn result(input: &str) -> i64 {
     let maze = parse_input(input);
 
     let lengths = (maze.i_len, maze.j_len);
@@ -16,18 +16,18 @@ pub fn result(input: &str) -> usize {
 
     // Area inside (Shoelace formula)
     // https://en.wikipedia.org/wiki/Shoelace_formula
-    let mut area: isize = 0;
-    let n = coords.len() as isize;
+    let mut area: i64 = 0;
+    let n = coords.len() as i64;
     for w in coords.windows(2) {
-        area += (w[0].0 * w[1].1) as isize;
-        area -= (w[0].1 * w[1].0) as isize;
+        area += (w[0].0 * w[1].1) as i64;
+        area -= (w[0].1 * w[1].0) as i64;
     }
 
-    let area = isize::abs(area) / 2;
+    let area = area.abs() / 2;
 
     // Tiles inside (Pick's theorem)
     // https://en.wikipedia.org/wiki/Pick's_theorem
-    (area - (n / 2) + 1) as usize
+    area - (n / 2) + 1
 }
 
 fn go_cycle(maze: &Maze, marked_maze: &mut [Vec<i64>]) -> Vec<(usize, usize)> {

@@ -1,4 +1,4 @@
-use std::collections::{HashSet, VecDeque};
+use std::collections::HashSet;
 
 use itertools::Itertools;
 
@@ -17,8 +17,7 @@ pub fn result(input: &str) -> usize {
     for _ in 0..64 {
         let possible_positions = taken_positions
             .iter()
-            .map(|pos| get_surrounding(&grid, *pos))
-            .flatten()
+            .flat_map(|pos| get_surrounding(&grid, *pos))
             .collect_vec();
 
         taken_positions.clear();
