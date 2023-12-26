@@ -3,14 +3,17 @@ pub const SAMPLE: &str = include_str!("inputs/sample.txt");
 
 type Grid = Vec<Vec<char>>;
 
-fn get_surrounding((i, j): (usize, usize)) -> Vec<(usize, usize)> {
+fn get_surrounding(grid: &Grid, (i, j): (usize, usize)) -> Vec<(usize, usize)> {
     [(-1, 0), (1, 0), (0, 1), (0, -1)]
         .into_iter()
         .filter_map(|offset| {
             let next_i = i.checked_add_signed(offset.0)?;
             let next_j = j.checked_add_signed(offset.1)?;
 
-            Some((next_i, next_j))
+            let row = grid.get(next_i)?;
+            let ch = row.get(next_j)?;
+
+            (*ch != '#').then_some((next_i, next_j))
         })
         .collect()
 }
