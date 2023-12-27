@@ -1,12 +1,13 @@
+use crate::{get_surrounding, parse_input, Grid};
 use std::collections::HashSet;
-
-use itertools::Itertools;
-
-use crate::{get_surrounding, parse_input};
 
 pub fn result(input: &str) -> usize {
     let grid = parse_input(input);
 
+    possible_positions_count::<64>(&grid)
+}
+
+fn possible_positions_count<const MAX_STEPS: usize>(grid: &Grid) -> usize {
     let start = (0..grid.len())
         .find_map(|i| (0..grid[0].len()).find_map(|j| (grid[i][j] == 'S').then_some((i, j))))
         .unwrap();
@@ -14,14 +15,11 @@ pub fn result(input: &str) -> usize {
     let mut taken_positions = HashSet::new();
     taken_positions.insert(start);
 
-    for _ in 0..64 {
-        let possible_positions = taken_positions
-            .iter()
-            .flat_map(|pos| get_surrounding(&grid, *pos))
-            .collect_vec();
-
-        taken_positions.clear();
-        taken_positions = possible_positions.into_iter().collect();
+    for _ in 0..MAX_STEPS {
+        taken_positions = taken_positions
+            .into_iter()
+            .flat_map(|pos| get_surrounding(grid, pos))
+            .collect();
 
         /* for i in 0..grid.len() {
             for j in 0..grid[0].len() {
@@ -49,10 +47,11 @@ mod tests {
     #[test]
     fn test_sample() {
         let input = SAMPLE;
+        let grid = parse_input(input);
 
-        let result = result(input);
+        let result = possible_positions_count::<6>(&grid);
 
-        assert_eq!(result, 42);
+        assert_eq!(result, 16);
     }
 
     #[test]

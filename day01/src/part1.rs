@@ -1,5 +1,5 @@
-pub fn result(lines: &[&str]) -> i32 {
-    lines.iter().map(|line| each_result(line)).sum()
+pub fn result(input: &str) -> i32 {
+    input.lines().map(each_result).sum()
 }
 
 fn each_result(line: &str) -> i32 {
@@ -19,7 +19,7 @@ fn each_result(line: &str) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{parse_input, INPUT, SAMPLE_PART1};
+    use crate::{INPUT, SAMPLE_PART1};
 
     #[test]
     fn test_each_sample_line() {
@@ -28,7 +28,7 @@ mod tests {
 
         assert_eq!(lines.clone().count(), results.len());
 
-        for (line, expected_result) in lines.zip(results) {
+        for (line, expected_result) in lines.into_iter().zip(results) {
             let actual_result = each_result(line);
 
             assert_eq!(actual_result, expected_result, "for {line}");
@@ -37,17 +37,15 @@ mod tests {
 
     #[test]
     fn test_sample() {
-        let lines = parse_input(SAMPLE_PART1);
-        let actual_result = result(&lines);
+        let result = result(SAMPLE_PART1);
 
-        assert_eq!(actual_result, 142);
+        assert_eq!(result, 142);
     }
 
     #[test]
     fn test_input() {
-        let lines = parse_input(INPUT);
-        let actual_result = result(&lines);
+        let result = result(INPUT);
 
-        assert_eq!(actual_result, 56049);
+        assert_eq!(result, 56049);
     }
 }

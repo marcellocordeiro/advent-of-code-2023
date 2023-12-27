@@ -31,9 +31,9 @@ mod tests {
     fn test_sample() {
         let almanac = parse_input(SAMPLE);
 
-        let min = result(&almanac);
+        let result = result(&almanac);
 
-        assert_eq!(min, 46);
+        assert_eq!(result, 46);
     }
 
     #[test]
@@ -41,8 +41,8 @@ mod tests {
     fn test_input() {
         let almanac = parse_input(INPUT);
 
-        let min = result(&almanac);
+        let result = result(&almanac);
 
-        assert_eq!(min, 69_323_688);
+        assert_eq!(result, 69323688);
     }
 }
