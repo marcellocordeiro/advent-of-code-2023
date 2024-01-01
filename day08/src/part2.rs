@@ -1,5 +1,6 @@
-use crate::parse_input;
 use num::Integer;
+
+use crate::parse_input;
 
 pub fn result(input: &str) -> usize {
     let guide = parse_input(input);

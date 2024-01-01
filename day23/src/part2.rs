@@ -1,6 +1,8 @@
-use crate::{parse_input, Grid};
-use colored::Colorize;
 use std::collections::HashSet;
+
+use colored::Colorize;
+
+use crate::{parse_input, Grid};
 
 pub fn result(input: &str) -> usize {
     let grid = parse_input(input);

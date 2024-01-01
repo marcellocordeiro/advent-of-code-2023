@@ -1,5 +1,6 @@
-use crate::{expand_universe, parse_input};
 use itertools::Itertools;
+
+use crate::{expand_universe, parse_input};
 
 pub fn result(input: &str) -> usize {
     let mut universe = parse_input(input);

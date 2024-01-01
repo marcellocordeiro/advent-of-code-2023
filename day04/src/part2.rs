@@ -1,5 +1,6 @@
-use crate::{number_matches_count, Card};
 use std::collections::BTreeMap;
+
+use crate::{number_matches_count, Card};
 
 pub fn result(cards: &[Card]) -> i32 {
     card_count(cards).values().sum()

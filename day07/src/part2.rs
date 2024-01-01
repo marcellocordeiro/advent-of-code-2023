@@ -1,6 +1,8 @@
-use crate::{parse_input, sort_hands, Hand, HandType};
-use itertools::Itertools;
 use std::collections::HashMap;
+
+use itertools::Itertools;
+
+use crate::{parse_input, sort_hands, Hand, HandType};
 
 const CARD_STRENGTH: [char; 13] = [
     'A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J',

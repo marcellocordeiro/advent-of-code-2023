@@ -1,5 +1,6 @@
-use crate::parse_input;
 use std::collections::VecDeque;
+
+use crate::parse_input;
 
 pub fn result(input: &str) -> usize {
     let mut modules = parse_input(input);

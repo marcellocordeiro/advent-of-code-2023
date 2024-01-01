@@ -1,5 +1,6 @@
-use crate::{hash, parse_input};
 use std::collections::HashMap;
+
+use crate::{hash, parse_input};
 
 pub fn result(input: &str) -> usize {
     let items = parse_input(input);

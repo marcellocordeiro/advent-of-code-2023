@@ -1,5 +1,6 @@
-use crate::{get_surrounding, parse_input, Grid};
 use std::collections::HashSet;
+
+use crate::{get_surrounding, parse_input, Grid};
 
 pub fn result(input: &str) -> usize {
     let grid = parse_input(input);

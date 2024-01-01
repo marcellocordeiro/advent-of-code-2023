@@ -1,6 +1,7 @@
-use crate::{parse_input, possible_directions, Direction, Grid, Position, You};
 use itertools::Itertools;
 use pathfinding::directed::bfs::bfs;
+
+use crate::{parse_input, possible_directions, Direction, Grid, Position, You};
 
 pub fn result(input: &str) -> usize {
     let grid = parse_input(input);

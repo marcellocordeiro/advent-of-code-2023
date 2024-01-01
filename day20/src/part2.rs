@@ -1,6 +1,8 @@
-use crate::{parse_input, Module};
-use num::Integer;
 use std::collections::{HashMap, VecDeque};
+
+use num::Integer;
+
+use crate::{parse_input, Module};
 
 // We need to make assumptions based on our input. So none of this code looks good :(
 // I will try to refactor it at some point.
