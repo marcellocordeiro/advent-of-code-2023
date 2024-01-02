@@ -5,4 +5,3 @@
 - day 21 part 2
 - day 22 part 2
 - day 24
-- day 25 part 1
